@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Madarsa-e-Hudallinnas</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+        }
+
+        header {
+            background: #087f5b;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px #ccc;
+        }
+
+        button {
+            background: #087f5b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #056b4d;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Madarsa-e-Hudallinnas</h1>
+    <p>Madarsa Management System</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📚 Students</h2>
+        <p>Manage student information.</p>
+        <button onclick="showMessage('Students section')">
+            Open Students
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>👨‍🏫 Teachers</h2>
+        <p>Manage teachers and staff.</p>
+        <button onclick="showMessage('Teachers section')">
+            Open Teachers
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>📅 Attendance</h2>
+        <p>Record daily attendance.</p>
+        <button onclick="showMessage('Attendance section')">
+            Open Attendance
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>💰 Fees</h2>
+        <p>Manage student fees.</p>
+        <button onclick="showMessage('Fees section')">
+            Open Fees
+        </button>
+    </div>
+
+</div>
+
+<script>
+    function showMessage(section) {
+        alert(section + " is opening...");
+    }
+</script>
+
+</body>
+</html>
