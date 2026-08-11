@@ -25,11 +25,6 @@
 
         header h1 {
             margin: 0;
-            font-size: 26px;
-        }
-
-        header p {
-            margin: 7px 0 0;
         }
 
         .container {
@@ -52,12 +47,7 @@
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
-            cursor: pointer;
             font-size: 15px;
-        }
-
-        button:hover {
-            background: #056b4d;
         }
 
         input {
@@ -66,14 +56,6 @@
             margin: 8px 0 12px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .student {
-            background: #f4f7f5;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
         }
 
         .hidden {
@@ -87,8 +69,15 @@
 
         .delete {
             background: #d32f2f;
+            margin-top: 8px;
             padding: 7px 12px;
-            margin-top: 7px;
+        }
+
+        .person {
+            background: #f4f7f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -108,13 +97,15 @@
         <div class="card">
             <h2>📚 Students</h2>
             <p>Manage student information.</p>
-            <button onclick="openStudents()">Open Students</button>
+            <button onclick="openPage('studentsPage')">
+                Open Students
+            </button>
         </div>
 
         <div class="card">
             <h2>👨‍🏫 Teachers</h2>
             <p>Manage teachers and staff.</p>
-            <button onclick="alert('Teachers section - coming next')">
+            <button onclick="openPage('teachersPage')">
                 Open Teachers
             </button>
         </div>
@@ -146,23 +137,9 @@
         <div class="card">
             <h2>📚 Students</h2>
 
-            <input
-                type="text"
-                id="studentName"
-                placeholder="Enter student name"
-            >
-
-            <input
-                type="text"
-                id="studentClass"
-                placeholder="Enter class"
-            >
-
-            <input
-                type="text"
-                id="studentPhone"
-                placeholder="Enter phone number"
-            >
+            <input id="studentName" placeholder="Student name">
+            <input id="studentClass" placeholder="Class">
+            <input id="studentPhone" placeholder="Phone number">
 
             <button onclick="addStudent()">
                 ➕ Add Student
@@ -171,10 +148,36 @@
 
         <div class="card">
             <h2>Student List</h2>
+            <div id="studentList"></div>
+        </div>
 
-            <div id="studentList">
-                <p>No students added yet.</p>
-            </div>
+    </div>
+
+
+    <!-- TEACHERS -->
+    <div id="teachersPage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back</button>
+
+        <div class="card">
+            <h2>👨‍🏫 Teachers</h2>
+
+            <input id="teacherName" placeholder="Teacher name">
+
+            <input id="teacherSubject"
+                   placeholder="Subject / Department">
+
+            <input id="teacherPhone"
+                   placeholder="Phone number">
+
+            <button onclick="addTeacher()">
+                ➕ Add Teacher
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Teacher List</h2>
+            <div id="teacherList"></div>
         </div>
 
     </div>
@@ -184,34 +187,58 @@
 
 <script>
 
-    let students = JSON.parse(
-        localStorage.getItem("students")
-    ) || [];
+    /* -------------------------
+       PAGE NAVIGATION
+    ------------------------- */
 
+    function openPage(page) {
 
-    function openStudents() {
-        document.getElementById("home").classList.add("hidden");
-        document.getElementById("studentsPage").classList.remove("hidden");
+        document.getElementById("home")
+            .classList.add("hidden");
 
-        displayStudents();
+        document.getElementById(page)
+            .classList.remove("hidden");
+
+        if (page === "studentsPage") {
+            displayStudents();
+        }
+
+        if (page === "teachersPage") {
+            displayTeachers();
+        }
     }
 
 
     function goHome() {
-        document.getElementById("studentsPage").classList.add("hidden");
-        document.getElementById("home").classList.remove("hidden");
+
+        document.getElementById("studentsPage")
+            .classList.add("hidden");
+
+        document.getElementById("teachersPage")
+            .classList.add("hidden");
+
+        document.getElementById("home")
+            .classList.remove("hidden");
     }
+
+
+    /* -------------------------
+       STUDENTS
+    ------------------------- */
+
+    let students =
+        JSON.parse(localStorage.getItem("students")) || [];
 
 
     function addStudent() {
 
-        const name =
+        let name =
             document.getElementById("studentName").value.trim();
 
-        const studentClass =
+        let studentClass =
             document.getElementById("studentClass").value.trim();
 
-        const phone =
+        let phone =
             document.getElementById("studentPhone").value.trim();
 
 
@@ -221,15 +248,13 @@
         }
 
 
-        const student = {
+        students.push({
             id: Date.now(),
             name: name,
             className: studentClass,
             phone: phone
-        };
+        });
 
-
-        students.push(student);
 
         localStorage.setItem(
             "students",
@@ -248,9 +273,8 @@
 
     function displayStudents() {
 
-        const list =
+        let list =
             document.getElementById("studentList");
-
 
         if (students.length === 0) {
             list.innerHTML = "<p>No students added yet.</p>";
@@ -261,47 +285,140 @@
         list.innerHTML = "";
 
 
-        students.forEach(function(student) {
+        students.forEach(student => {
 
-            const div = document.createElement("div");
-
-            div.className = "student";
-
-            div.innerHTML = `
-                <strong>👤 ${student.name}</strong>
-                <br>
-                📚 Class: ${student.className || "Not added"}
-                <br>
-                📱 Phone: ${student.phone || "Not added"}
-                <br>
-                <button class="delete"
-                    onclick="deleteStudent(${student.id})">
-                    Delete
-                </button>
+            list.innerHTML += `
+                <div class="person">
+                    <strong>👤 ${student.name}</strong>
+                    <br>
+                    📚 Class: ${student.className || "Not added"}
+                    <br>
+                    📱 ${student.phone || "Not added"}
+                    <br>
+                    <button class="delete"
+                        onclick="deleteStudent(${student.id})">
+                        Delete
+                    </button>
+                </div>
             `;
-
-            list.appendChild(div);
         });
     }
 
 
     function deleteStudent(id) {
 
-        students = students.filter(function(student) {
-            return student.id !== id;
-        });
-
+        students =
+            students.filter(student => student.id !== id);
 
         localStorage.setItem(
             "students",
             JSON.stringify(students)
         );
 
-
         displayStudents();
+    }
+
+
+    /* -------------------------
+       TEACHERS
+    ------------------------- */
+
+    let teachers =
+        JSON.parse(localStorage.getItem("teachers")) || [];
+
+
+    function addTeacher() {
+
+        let name =
+            document.getElementById("teacherName").value.trim();
+
+        let subject =
+            document.getElementById("teacherSubject").value.trim();
+
+        let phone =
+            document.getElementById("teacherPhone").value.trim();
+
+
+        if (name === "") {
+            alert("Please enter teacher name");
+            return;
+        }
+
+
+        teachers.push({
+            id: Date.now(),
+            name: name,
+            subject: subject,
+            phone: phone
+        });
+
+
+        localStorage.setItem(
+            "teachers",
+            JSON.stringify(teachers)
+        );
+
+
+        document.getElementById("teacherName").value = "";
+        document.getElementById("teacherSubject").value = "";
+        document.getElementById("teacherPhone").value = "";
+
+
+        displayTeachers();
+    }
+
+
+    function displayTeachers() {
+
+        let list =
+            document.getElementById("teacherList");
+
+
+        if (teachers.length === 0) {
+            list.innerHTML = "<p>No teachers added yet.</p>";
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        teachers.forEach(teacher => {
+
+            list.innerHTML += `
+                <div class="person">
+                    <strong>👨‍🏫 ${teacher.name}</strong>
+                    <br>
+                    📚 Subject: ${teacher.subject || "Not added"}
+                    <br>
+                    📱 ${teacher.phone || "Not added"}
+                    <br>
+                    <button class="delete"
+                        onclick="deleteTeacher(${teacher.id})">
+                        Delete
+                    </button>
+                </div>
+            `;
+        });
+    }
+
+
+    function deleteTeacher(id) {
+
+        teachers =
+            teachers.filter(teacher => teacher.id !== id);
+
+
+        localStorage.setItem(
+            "teachers",
+            JSON.stringify(teachers)
+        );
+
+
+        displayTeachers();
     }
 
 </script>
 
 </body>
-</html>
+    </html>
