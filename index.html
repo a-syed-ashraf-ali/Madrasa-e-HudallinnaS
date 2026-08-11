@@ -48,9 +48,14 @@
             padding: 12px 20px;
             border-radius: 8px;
             font-size: 15px;
+            cursor: pointer;
         }
 
-        input {
+        button:hover {
+            opacity: 0.9;
+        }
+
+        input, select {
             width: 100%;
             padding: 12px;
             margin: 8px 0 12px;
@@ -79,6 +84,33 @@
             margin: 10px 0;
             border-radius: 10px;
         }
+
+        .attendance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f4f7f5;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+        }
+
+        .status-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .btn-inactive {
+            background: #888;
+        }
+
+        .btn-present {
+            background: #2e7d32;
+        }
+
+        .btn-absent {
+            background: #c62828;
+        }
     </style>
 </head>
 
@@ -91,7 +123,7 @@
 
 <div class="container">
 
-    <!-- HOME -->
+    <!-- HOME PAGE -->
     <div id="home">
 
         <div class="card">
@@ -113,7 +145,7 @@
         <div class="card">
             <h2>📅 Attendance</h2>
             <p>Record daily attendance.</p>
-            <button onclick="alert('Attendance section - coming next')">
+            <button onclick="openPage('attendancePage')">
                 Open Attendance
             </button>
         </div>
@@ -121,7 +153,7 @@
         <div class="card">
             <h2>💰 Fees</h2>
             <p>Manage student fees.</p>
-            <button onclick="alert('Fees section - coming next')">
+            <button onclick="openPage('feesPage')">
                 Open Fees
             </button>
         </div>
@@ -129,7 +161,7 @@
     </div>
 
 
-    <!-- STUDENTS -->
+    <!-- STUDENTS PAGE -->
     <div id="studentsPage" class="hidden">
 
         <button class="back" onclick="goHome()">← Back</button>
@@ -154,7 +186,7 @@
     </div>
 
 
-    <!-- TEACHERS -->
+    <!-- TEACHERS PAGE -->
     <div id="teachersPage" class="hidden">
 
         <button class="back" onclick="goHome()">← Back</button>
@@ -163,12 +195,8 @@
             <h2>👨‍🏫 Teachers</h2>
 
             <input id="teacherName" placeholder="Teacher name">
-
-            <input id="teacherSubject"
-                   placeholder="Subject / Department">
-
-            <input id="teacherPhone"
-                   placeholder="Phone number">
+            <input id="teacherSubject" placeholder="Subject / Department">
+            <input id="teacherPhone" placeholder="Phone number">
 
             <button onclick="addTeacher()">
                 ➕ Add Teacher
@@ -182,243 +210,429 @@
 
     </div>
 
+
+    <!-- ATTENDANCE PAGE -->
+    <div id="attendancePage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back</button>
+
+        <div class="card">
+            <h2>📅 Daily Attendance</h2>
+            <label for="attendanceDate"><strong>Select Date:</strong></label>
+            <input type="date" id="attendanceDate" onchange="displayAttendance()">
+        </div>
+
+        <div class="card">
+            <h2>Mark Attendance</h2>
+            <div id="attendanceList"></div>
+        </div>
+
+    </div>
+
+
+    <!-- FEES PAGE -->
+    <div id="feesPage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back</button>
+
+        <div class="card">
+            <h2>💰 Record Fee Payment</h2>
+
+            <select id="feeStudentSelect">
+                <option value="">Select Student</option>
+            </select>
+
+            <input id="feeAmount" type="number" placeholder="Fee Amount">
+            <input id="feeMonth" placeholder="Month/Period (e.g. August 2026)">
+
+            <button onclick="addFeeRecord()">
+                💾 Save Payment Record
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Payment Records</h2>
+            <div id="feeList"></div>
+        </div>
+
+    </div>
+
 </div>
 
 
 <script>
 
-    /* -------------------------
-       PAGE NAVIGATION
-    ------------------------- */
+    /* ----------------------------------
+       GLOBAL APP STATE & INITIALIZATION
+    ---------------------------------- */
 
-    function openPage(page) {
+    let students = [];
+    let teachers = [];
+    let attendanceRecords = {};
+    let feeRecords = [];
 
-        document.getElementById("home")
-            .classList.add("hidden");
-
-        document.getElementById(page)
-            .classList.remove("hidden");
-
-        if (page === "studentsPage") {
-            displayStudents();
-        }
-
-        if (page === "teachersPage") {
-            displayTeachers();
+    // Safe load function from LocalStorage
+    function loadAppData() {
+        try {
+            students = JSON.parse(localStorage.getItem("students")) || [];
+            teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+            attendanceRecords = JSON.parse(localStorage.getItem("attendanceRecords")) || {};
+            feeRecords = JSON.parse(localStorage.getItem("feeRecords")) || [];
+        } catch (e) {
+            console.error("Error reading localStorage:", e);
+            students = [];
+            teachers = [];
+            attendanceRecords = {};
+            feeRecords = [];
         }
     }
 
+    // Initialize application state on DOM ready
+    window.addEventListener("DOMContentLoaded", function() {
+        loadAppData();
+        // Default today's date in attendance screen input
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("attendanceDate").value = today;
+    });
+
+
+    /* ----------------------------------
+       PAGE NAVIGATION LOGIC
+    ---------------------------------- */
+
+    function openPage(pageId) {
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("studentsPage").classList.add("hidden");
+        document.getElementById("teachersPage").classList.add("hidden");
+        document.getElementById("attendancePage").classList.add("hidden");
+        document.getElementById("feesPage").classList.add("hidden");
+
+        document.getElementById(pageId).classList.remove("hidden");
+
+        if (pageId === "studentsPage") {
+            displayStudents();
+        } else if (pageId === "teachersPage") {
+            displayTeachers();
+        } else if (pageId === "attendancePage") {
+            displayAttendance();
+        } else if (pageId === "feesPage") {
+            populateFeeStudentDropdown();
+            displayFees();
+        }
+    }
 
     function goHome() {
+        document.getElementById("studentsPage").classList.add("hidden");
+        document.getElementById("teachersPage").classList.add("hidden");
+        document.getElementById("attendancePage").classList.add("hidden");
+        document.getElementById("feesPage").classList.add("hidden");
 
-        document.getElementById("studentsPage")
-            .classList.add("hidden");
-
-        document.getElementById("teachersPage")
-            .classList.add("hidden");
-
-        document.getElementById("home")
-            .classList.remove("hidden");
+        document.getElementById("home").classList.remove("hidden");
     }
 
 
-    /* -------------------------
-       STUDENTS
-    ------------------------- */
-
-    let students =
-        JSON.parse(localStorage.getItem("students")) || [];
-
+    /* ----------------------------------
+       STUDENT MANAGEMENT
+    ---------------------------------- */
 
     function addStudent() {
-
-        let name =
-            document.getElementById("studentName").value.trim();
-
-        let studentClass =
-            document.getElementById("studentClass").value.trim();
-
-        let phone =
-            document.getElementById("studentPhone").value.trim();
-
+        let name = document.getElementById("studentName").value.trim();
+        let studentClass = document.getElementById("studentClass").value.trim();
+        let phone = document.getElementById("studentPhone").value.trim();
 
         if (name === "") {
-            alert("Please enter student name");
+            alert("Please enter a student name");
             return;
         }
 
-
-        students.push({
+        let newStudent = {
             id: Date.now(),
             name: name,
-            className: studentClass,
-            phone: phone
-        });
+            className: studentClass || "Not specified",
+            phone: phone || "Not specified"
+        };
 
-
-        localStorage.setItem(
-            "students",
-            JSON.stringify(students)
-        );
-
+        students.push(newStudent);
+        localStorage.setItem("students", JSON.stringify(students));
 
         document.getElementById("studentName").value = "";
         document.getElementById("studentClass").value = "";
         document.getElementById("studentPhone").value = "";
 
-
         displayStudents();
     }
 
-
     function displayStudents() {
-
-        let list =
-            document.getElementById("studentList");
+        let list = document.getElementById("studentList");
 
         if (students.length === 0) {
             list.innerHTML = "<p>No students added yet.</p>";
             return;
         }
 
-
-        list.innerHTML = "";
-
-
+        let html = "";
         students.forEach(student => {
-
-            list.innerHTML += `
+            html += `
                 <div class="person">
-                    <strong>👤 ${student.name}</strong>
+                    <strong>👤 ${escapeHtml(student.name)}</strong>
                     <br>
-                    📚 Class: ${student.className || "Not added"}
+                    📚 Class: ${escapeHtml(student.className)}
                     <br>
-                    📱 ${student.phone || "Not added"}
+                    📱 Phone: ${escapeHtml(student.phone)}
                     <br>
-                    <button class="delete"
-                        onclick="deleteStudent(${student.id})">
+                    <button class="delete" onclick="deleteStudent(${student.id})">
                         Delete
                     </button>
                 </div>
             `;
         });
+
+        list.innerHTML = html;
     }
 
-
     function deleteStudent(id) {
-
-        students =
-            students.filter(student => student.id !== id);
-
-        localStorage.setItem(
-            "students",
-            JSON.stringify(students)
-        );
-
+        students = students.filter(student => student.id !== id);
+        localStorage.setItem("students", JSON.stringify(students));
         displayStudents();
     }
 
 
-    /* -------------------------
-       TEACHERS
-    ------------------------- */
-
-    let teachers =
-        JSON.parse(localStorage.getItem("teachers")) || [];
-
+    /* ----------------------------------
+       TEACHER MANAGEMENT
+    ---------------------------------- */
 
     function addTeacher() {
-
-        let name =
-            document.getElementById("teacherName").value.trim();
-
-        let subject =
-            document.getElementById("teacherSubject").value.trim();
-
-        let phone =
-            document.getElementById("teacherPhone").value.trim();
-
+        let name = document.getElementById("teacherName").value.trim();
+        let subject = document.getElementById("teacherSubject").value.trim();
+        let phone = document.getElementById("teacherPhone").value.trim();
 
         if (name === "") {
-            alert("Please enter teacher name");
+            alert("Please enter a teacher name");
             return;
         }
 
-
-        teachers.push({
+        let newTeacher = {
             id: Date.now(),
             name: name,
-            subject: subject,
-            phone: phone
-        });
+            subject: subject || "Not specified",
+            phone: phone || "Not specified"
+        };
 
-
-        localStorage.setItem(
-            "teachers",
-            JSON.stringify(teachers)
-        );
-
+        teachers.push(newTeacher);
+        localStorage.setItem("teachers", JSON.stringify(teachers));
 
         document.getElementById("teacherName").value = "";
         document.getElementById("teacherSubject").value = "";
         document.getElementById("teacherPhone").value = "";
 
-
         displayTeachers();
     }
 
-
     function displayTeachers() {
-
-        let list =
-            document.getElementById("teacherList");
-
+        let list = document.getElementById("teacherList");
 
         if (teachers.length === 0) {
             list.innerHTML = "<p>No teachers added yet.</p>";
             return;
         }
 
-
-        list.innerHTML = "";
-
-
+        let html = "";
         teachers.forEach(teacher => {
-
-            list.innerHTML += `
+            html += `
                 <div class="person">
-                    <strong>👨‍🏫 ${teacher.name}</strong>
+                    <strong>👨‍🏫 ${escapeHtml(teacher.name)}</strong>
                     <br>
-                    📚 Subject: ${teacher.subject || "Not added"}
+                    📚 Subject: ${escapeHtml(teacher.subject)}
                     <br>
-                    📱 ${teacher.phone || "Not added"}
+                    📱 Phone: ${escapeHtml(teacher.phone)}
                     <br>
-                    <button class="delete"
-                        onclick="deleteTeacher(${teacher.id})">
+                    <button class="delete" onclick="deleteTeacher(${teacher.id})">
                         Delete
                     </button>
                 </div>
             `;
         });
+
+        list.innerHTML = html;
+    }
+
+    function deleteTeacher(id) {
+        teachers = teachers.filter(teacher => teacher.id !== id);
+        localStorage.setItem("teachers", JSON.stringify(teachers));
+        displayTeachers();
     }
 
 
-    function deleteTeacher(id) {
+    /* ----------------------------------
+       ATTENDANCE MANAGEMENT
+    ---------------------------------- */
 
-        teachers =
-            teachers.filter(teacher => teacher.id !== id);
+    function displayAttendance() {
+        let date = document.getElementById("attendanceDate").value;
+        let list = document.getElementById("attendanceList");
+
+        if (!date) {
+            list.innerHTML = "<p>Please select a valid date.</p>";
+            return;
+        }
+
+        if (students.length === 0) {
+            list.innerHTML = "<p>No students found. Add students first in the Students section.</p>";
+            return;
+        }
+
+        if (!attendanceRecords[date]) {
+            attendanceRecords[date] = {};
+        }
+
+        let html = "";
+        students.forEach(student => {
+            let status = attendanceRecords[date][student.id] || "None";
+
+            let presentClass = status === 'Present' ? 'btn-present' : 'btn-inactive';
+            let absentClass = status === 'Absent' ? 'btn-absent' : 'btn-inactive';
+
+            html += `
+                <div class="attendance-row">
+                    <div>
+                        <strong>👤 ${escapeHtml(student.name)}</strong> 
+                        <small>(${escapeHtml(student.className)})</small>
+                    </div>
+                    <div>
+                        <button class="status-btn ${presentClass}" 
+                                onclick="setAttendance('${date}', ${student.id}, 'Present')">
+                            Present
+                        </button>
+                        <button class="status-btn ${absentClass}" 
+                                onclick="setAttendance('${date}', ${student.id}, 'Absent')">
+                            Absent
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function setAttendance(date, studentId, status) {
+        if (!attendanceRecords[date]) {
+            attendanceRecords[date] = {};
+        }
+
+        attendanceRecords[date][studentId] = status;
+        localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
+        displayAttendance();
+    }
 
 
-        localStorage.setItem(
-            "teachers",
-            JSON.stringify(teachers)
-        );
+    /* ----------------------------------
+       FEES MANAGEMENT
+    ---------------------------------- */
+
+    function populateFeeStudentDropdown() {
+        let select = document.getElementById("feeStudentSelect");
+        select.innerHTML = '<option value="">Select Student</option>';
+
+        students.forEach(student => {
+            select.innerHTML += `
+                <option value="${student.id}">${escapeHtml(student.name)} (${escapeHtml(student.className)})</option>
+            `;
+        });
+    }
+
+    function addFeeRecord() {
+        let studentId = document.getElementById("feeStudentSelect").value;
+        let amount = document.getElementById("feeAmount").value.trim();
+        let month = document.getElementById("feeMonth").value.trim();
+
+        if (!studentId) {
+            alert("Please select a student from the dropdown");
+            return;
+        }
+        if (amount === "" || Number(amount) <= 0) {
+            alert("Please enter a valid positive fee amount");
+            return;
+        }
+        if (month === "") {
+            alert("Please enter the period or month name");
+            return;
+        }
+
+        let matchedStudent = students.find(s => s.id == studentId);
+
+        let newRecord = {
+            id: Date.now(),
+            studentId: studentId,
+            studentName: matchedStudent ? matchedStudent.name : "Unknown",
+            amount: amount,
+            month: month,
+            dateRecorded: new Date().toLocaleDateString()
+        };
+
+        feeRecords.push(newRecord);
+        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
+
+        document.getElementById("feeAmount").value = "";
+        document.getElementById("feeMonth").value = "";
+        document.getElementById("feeStudentSelect").value = "";
+
+        displayFees();
+    }
+
+    function displayFees() {
+        let list = document.getElementById("feeList");
+
+        if (feeRecords.length === 0) {
+            list.innerHTML = "<p>No fee records saved yet.</p>";
+            return;
+        }
+
+        let html = "";
+        feeRecords.forEach(record => {
+            html += `
+                <div class="person">
+                    <strong>👤 ${escapeHtml(record.studentName)}</strong>
+                    <br>
+                    💵 Amount Paid: ${escapeHtml(record.amount)}
+                    <br>
+                    🗓️ Period: ${escapeHtml(record.month)}
+                    <br>
+                    📅 Recorded: ${escapeHtml(record.dateRecorded)}
+                    <br>
+                    <button class="delete" onclick="deleteFeeRecord(${record.id})">
+                        Delete Record
+                    </button>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function deleteFeeRecord(id) {
+        feeRecords = feeRecords.filter(record => record.id !== id);
+        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
+        displayFees();
+    }
 
 
-        displayTeachers();
+    /* ----------------------------------
+       UTILITY FUNCTIONS
+    ---------------------------------- */
+
+    // Sanitizes text string against HTML injection
+    function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
 </script>
 
 </body>
-    </html>
+</html>
