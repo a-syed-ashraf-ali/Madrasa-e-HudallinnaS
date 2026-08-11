@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Madarsa-e-Hudallinnas</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -16,16 +19,23 @@
         header {
             background: #087f5b;
             color: white;
-            padding: 25px;
+            padding: 22px;
             text-align: center;
         }
 
         header h1 {
             margin: 0;
+            font-size: 26px;
+        }
+
+        header p {
+            margin: 7px 0 0;
         }
 
         .container {
             padding: 20px;
+            max-width: 700px;
+            margin: auto;
         }
 
         .card {
@@ -43,10 +53,42 @@
             padding: 12px 20px;
             border-radius: 8px;
             cursor: pointer;
+            font-size: 15px;
         }
 
         button:hover {
             background: #056b4d;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .student {
+            background: #f4f7f5;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back {
+            background: #555;
+            margin-bottom: 15px;
+        }
+
+        .delete {
+            background: #d32f2f;
+            padding: 7px 12px;
+            margin-top: 7px;
         }
     </style>
 </head>
@@ -60,44 +102,205 @@
 
 <div class="container">
 
-    <div class="card">
-        <h2>📚 Students</h2>
-        <p>Manage student information.</p>
-        <button onclick="showMessage('Students section')">
-            Open Students
-        </button>
+    <!-- HOME -->
+    <div id="home">
+
+        <div class="card">
+            <h2>📚 Students</h2>
+            <p>Manage student information.</p>
+            <button onclick="openStudents()">Open Students</button>
+        </div>
+
+        <div class="card">
+            <h2>👨‍🏫 Teachers</h2>
+            <p>Manage teachers and staff.</p>
+            <button onclick="alert('Teachers section - coming next')">
+                Open Teachers
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>📅 Attendance</h2>
+            <p>Record daily attendance.</p>
+            <button onclick="alert('Attendance section - coming next')">
+                Open Attendance
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>💰 Fees</h2>
+            <p>Manage student fees.</p>
+            <button onclick="alert('Fees section - coming next')">
+                Open Fees
+            </button>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h2>👨‍🏫 Teachers</h2>
-        <p>Manage teachers and staff.</p>
-        <button onclick="showMessage('Teachers section')">
-            Open Teachers
-        </button>
-    </div>
 
-    <div class="card">
-        <h2>📅 Attendance</h2>
-        <p>Record daily attendance.</p>
-        <button onclick="showMessage('Attendance section')">
-            Open Attendance
-        </button>
-    </div>
+    <!-- STUDENTS -->
+    <div id="studentsPage" class="hidden">
 
-    <div class="card">
-        <h2>💰 Fees</h2>
-        <p>Manage student fees.</p>
-        <button onclick="showMessage('Fees section')">
-            Open Fees
-        </button>
+        <button class="back" onclick="goHome()">← Back</button>
+
+        <div class="card">
+            <h2>📚 Students</h2>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter student name"
+            >
+
+            <input
+                type="text"
+                id="studentClass"
+                placeholder="Enter class"
+            >
+
+            <input
+                type="text"
+                id="studentPhone"
+                placeholder="Enter phone number"
+            >
+
+            <button onclick="addStudent()">
+                ➕ Add Student
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Student List</h2>
+
+            <div id="studentList">
+                <p>No students added yet.</p>
+            </div>
+        </div>
+
     </div>
 
 </div>
 
+
 <script>
-    function showMessage(section) {
-        alert(section + " is opening...");
+
+    let students = JSON.parse(
+        localStorage.getItem("students")
+    ) || [];
+
+
+    function openStudents() {
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("studentsPage").classList.remove("hidden");
+
+        displayStudents();
     }
+
+
+    function goHome() {
+        document.getElementById("studentsPage").classList.add("hidden");
+        document.getElementById("home").classList.remove("hidden");
+    }
+
+
+    function addStudent() {
+
+        const name =
+            document.getElementById("studentName").value.trim();
+
+        const studentClass =
+            document.getElementById("studentClass").value.trim();
+
+        const phone =
+            document.getElementById("studentPhone").value.trim();
+
+
+        if (name === "") {
+            alert("Please enter student name");
+            return;
+        }
+
+
+        const student = {
+            id: Date.now(),
+            name: name,
+            className: studentClass,
+            phone: phone
+        };
+
+
+        students.push(student);
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentClass").value = "";
+        document.getElementById("studentPhone").value = "";
+
+
+        displayStudents();
+    }
+
+
+    function displayStudents() {
+
+        const list =
+            document.getElementById("studentList");
+
+
+        if (students.length === 0) {
+            list.innerHTML = "<p>No students added yet.</p>";
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        students.forEach(function(student) {
+
+            const div = document.createElement("div");
+
+            div.className = "student";
+
+            div.innerHTML = `
+                <strong>👤 ${student.name}</strong>
+                <br>
+                📚 Class: ${student.className || "Not added"}
+                <br>
+                📱 Phone: ${student.phone || "Not added"}
+                <br>
+                <button class="delete"
+                    onclick="deleteStudent(${student.id})">
+                    Delete
+                </button>
+            `;
+
+            list.appendChild(div);
+        });
+    }
+
+
+    function deleteStudent(id) {
+
+        students = students.filter(function(student) {
+            return student.id !== id;
+        });
+
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+
+        displayStudents();
+    }
+
 </script>
 
 </body>
