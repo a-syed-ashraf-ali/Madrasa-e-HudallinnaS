@@ -1,666 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madarsa-e-Hudallinnas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madrasa-e-Hudallinnas</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7f5;
-        }
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
 
-        header {
-            background: #087f5b;
-            color: white;
-            padding: 22px;
-            text-align: center;
-        }
+header {
+    background: #075985;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        header h1 {
-            margin: 0;
-        }
+header h1 {
+    font-size: 24px;
+}
 
-        .container {
-            padding: 20px;
-            max-width: 700px;
-            margin: auto;
-        }
+.container {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 15px;
-            box-shadow: 0 3px 10px #ccc;
-        }
+.sidebar {
+    width: 230px;
+    background: #0f172a;
+    color: white;
+    padding: 20px 10px;
+}
 
-        button {
-            background: #087f5b;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 15px;
-            cursor: pointer;
-        }
+.sidebar button {
+    width: 100%;
+    padding: 13px;
+    margin: 5px 0;
+    border: none;
+    background: transparent;
+    color: white;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
 
-        button:hover {
-            opacity: 0.9;
-        }
+.sidebar button:hover,
+.sidebar button.active {
+    background: #075985;
+}
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
+.main {
+    flex: 1;
+    padding: 25px;
+}
 
-        .search-box {
-            background: #e8f5e9;
-            border: 1px solid #087f5b;
-        }
+.page {
+    display: none;
+}
 
-        .hidden {
-            display: none;
-        }
+.page.active {
+    display: block;
+}
 
-        .back {
-            background: #555;
-            margin-bottom: 15px;
-        }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
 
-        .delete {
-            background: #d32f2f;
-            margin-top: 8px;
-            padding: 7px 12px;
-        }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+}
 
-        .btn-secondary {
-            background: #0288d1;
-            margin-top: 5px;
-        }
+.card h3 {
+    color: #64748b;
+    font-size: 15px;
+}
 
-        .person {
-            background: #f4f7f5;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-        }
+.card p {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #075985;
+}
 
-        .attendance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f4f7f5;
-            padding: 10px 15px;
-            margin: 8px 0;
-            border-radius: 8px;
-        }
+.form-box {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+}
 
-        .status-btn {
-            padding: 6px 12px;
-            font-size: 13px;
-        }
+input, select {
+    padding: 11px;
+    margin: 5px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
 
-        .btn-inactive {
-            background: #888;
-        }
+button.primary {
+    padding: 11px 18px;
+    background: #075985;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-        .btn-present {
-            background: #2e7d32;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
 
-        .btn-absent {
-            background: #c62828;
-        }
-    </style>
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+th {
+    background: #e0f2fe;
+}
+
+.delete {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media(max-width:700px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar button {
+        font-size: 0;
+        text-align: center;
+    }
+
+    .sidebar button::first-letter {
+        font-size: 20px;
+    }
+
+    .main {
+        padding: 12px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>Madarsa-e-Hudallinnas</h1>
-    <p>Madarsa Management System</p>
+    <h1>🕌 Madrasa-e-Hudallinnas</h1>
+    <span>Management System</span>
 </header>
 
 <div class="container">
 
-    <!-- HOME PAGE -->
-    <div id="home">
+    <aside class="sidebar">
+        <button class="active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+        <button onclick="showPage('students', this)">👨‍🎓 Students</button>
+        <button onclick="showPage('teachers', this)">👨‍🏫 Teachers</button>
+        <button onclick="showPage('attendance', this)">📋 Attendance</button>
+        <button onclick="showPage('fees', this)">💰 Fees</button>
+    </aside>
 
-        <div class="card">
-            <h2>📚 Students</h2>
-            <p>Manage student information.</p>
-            <button onclick="openPage('studentsPage')">
-                Open Students
-            </button>
-        </div>
+    <main class="main">
 
-        <div class="card">
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active">
+            <h2>Dashboard</h2>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Total Students</h3>
+                    <p id="studentCount">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Total Teachers</h3>
+                    <p>0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Attendance</h3>
+                    <p>0%</p>
+                </div>
+
+                <div class="card">
+                    <h3>Fees Collected</h3>
+                    <p>₹0</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- STUDENTS -->
+        <section id="students" class="page">
+
+            <h2>👨‍🎓 Student Management</h2>
+
+            <div class="form-box">
+
+                <input type="text" id="studentName"
+                       placeholder="Student Name">
+
+                <input type="text" id="fatherName"
+                       placeholder="Father Name">
+
+                <input type="tel" id="phone"
+                       placeholder="Phone Number">
+
+                <select id="className">
+                    <option value="">Select Class</option>
+                    <option>Class 1</option>
+                    <option>Class 2</option>
+                    <option>Class 3</option>
+                    <option>Class 4</option>
+                    <option>Class 5</option>
+                    <option>Class 6</option>
+                    <option>Class 7</option>
+                    <option>Class 8</option>
+                    <option>Class 9</option>
+                    <option>Class 10</option>
+                </select>
+
+                <button class="primary"
+                        onclick="addStudent()">
+                    + Add Student
+                </button>
+
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Student Name</th>
+                        <th>Father Name</th>
+                        <th>Phone</th>
+                        <th>Class</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable"></tbody>
+            </table>
+
+        </section>
+
+
+        <!-- TEACHERS -->
+        <section id="teachers" class="page">
             <h2>👨‍🏫 Teachers</h2>
-            <p>Manage teachers and staff.</p>
-            <button onclick="openPage('teachersPage')">
-                Open Teachers
-            </button>
-        </div>
 
-        <div class="card">
-            <h2>📅 Attendance</h2>
-            <p>Record daily attendance.</p>
-            <button onclick="openPage('attendancePage')">
-                Open Attendance
-            </button>
-        </div>
+            <div class="form-box">
+                <h3>Teacher Management</h3>
+                <p style="margin-top:10px">
+                    Teacher management will be added next.
+                </p>
+            </div>
+        </section>
 
-        <div class="card">
+
+        <!-- ATTENDANCE -->
+        <section id="attendance" class="page">
+            <h2>📋 Attendance</h2>
+
+            <div class="form-box">
+                <h3>Attendance Management</h3>
+                <p style="margin-top:10px">
+                    Attendance system will be added next.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- FEES -->
+        <section id="fees" class="page">
             <h2>💰 Fees</h2>
-            <p>Manage student fees.</p>
-            <button onclick="openPage('feesPage')">
-                Open Fees
-            </button>
-        </div>
 
-        <div class="card">
-            <h2>💾 Backup & Data</h2>
-            <p>Export or restore system records safely.</p>
-            <button onclick="openPage('backupPage')">
-                Manage Data Backup
-            </button>
-        </div>
+            <div class="form-box">
+                <h3>Fee Management</h3>
+                <p style="margin-top:10px">
+                    Fee management will be added next.
+                </p>
+            </div>
+        </section>
 
-    </div>
-
-
-    <!-- STUDENTS PAGE -->
-    <div id="studentsPage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back</button>
-
-        <div class="card">
-            <h2>📚 Add Student</h2>
-
-            <input id="studentName" placeholder="Student name">
-            <input id="studentClass" placeholder="Class">
-            <input id="studentPhone" placeholder="Phone number">
-
-            <button onclick="addStudent()">
-                ➕ Add Student
-            </button>
-        </div>
-
-        <div class="card">
-            <h2>Student List</h2>
-            <input id="searchStudent" class="search-box" placeholder="🔍 Search student by name or class..." oninput="displayStudents()">
-            <div id="studentList"></div>
-        </div>
-
-    </div>
-
-
-    <!-- TEACHERS PAGE -->
-    <div id="teachersPage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back</button>
-
-        <div class="card">
-            <h2>👨‍🏫 Add Teacher</h2>
-
-            <input id="teacherName" placeholder="Teacher name">
-            <input id="teacherSubject" placeholder="Subject / Department">
-            <input id="teacherPhone" placeholder="Phone number">
-
-            <button onclick="addTeacher()">
-                ➕ Add Teacher
-            </button>
-        </div>
-
-        <div class="card">
-            <h2>Teacher List</h2>
-            <input id="searchTeacher" class="search-box" placeholder="🔍 Search teacher by name or subject..." oninput="displayTeachers()">
-            <div id="teacherList"></div>
-        </div>
-
-    </div>
-
-
-    <!-- ATTENDANCE PAGE -->
-    <div id="attendancePage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back</button>
-
-        <div class="card">
-            <h2>📅 Daily Attendance</h2>
-            <label for="attendanceDate"><strong>Select Date:</strong></label>
-            <input type="date" id="attendanceDate" onchange="displayAttendance()">
-        </div>
-
-        <div class="card">
-            <h2>Mark Attendance</h2>
-            <input id="searchAttendance" class="search-box" placeholder="🔍 Search student name..." oninput="displayAttendance()">
-            <div id="attendanceList"></div>
-        </div>
-
-    </div>
-
-
-    <!-- FEES PAGE -->
-    <div id="feesPage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back</button>
-
-        <div class="card">
-            <h2>💰 Record Fee Payment</h2>
-
-            <select id="feeStudentSelect">
-                <option value="">Select Student</option>
-            </select>
-
-            <input id="feeAmount" type="number" placeholder="Fee Amount">
-            <input id="feeMonth" placeholder="Month/Period (e.g. August 2026)">
-
-            <button onclick="addFeeRecord()">
-                💾 Save Payment Record
-            </button>
-        </div>
-
-        <div class="card">
-            <h2>Payment Records</h2>
-            <input id="searchFees" class="search-box" placeholder="🔍 Search record by student name..." oninput="displayFees()">
-            <div id="feeList"></div>
-        </div>
-
-    </div>
-
-
-    <!-- BACKUP PAGE -->
-    <div id="backupPage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back</button>
-
-        <div class="card">
-            <h2>📥 Export Data Backup</h2>
-            <p>Save a copy of all your students, teachers, attendance, and fee logs to your computer/phone.</p>
-            <button onclick="exportBackup()">Download Backup (.JSON)</button>
-        </div>
-
-        <div class="card">
-            <h2>📤 Restore Data</h2>
-            <p>Load your data back into the system from a saved backup file.</p>
-            <input type="file" id="backupFileInput" accept=".json">
-            <button class="btn-secondary" onclick="importBackup()">Restore Backup File</button>
-        </div>
-
-    </div>
-
+    </main>
 </div>
 
 
 <script>
 
-    /* ----------------------------------
-       GLOBAL APP STATE & INITIALIZATION
-    ---------------------------------- */
+let students =
+    JSON.parse(localStorage.getItem("students")) || [];
 
-    let students = [];
-    let teachers = [];
-    let attendanceRecords = {};
-    let feeRecords = [];
 
-    function loadAppData() {
-        try {
-            students = JSON.parse(localStorage.getItem("students")) || [];
-            teachers = JSON.parse(localStorage.getItem("teachers")) || [];
-            attendanceRecords = JSON.parse(localStorage.getItem("attendanceRecords")) || {};
-            feeRecords = JSON.parse(localStorage.getItem("feeRecords")) || [];
-        } catch (e) {
-            console.error("Error reading localStorage:", e);
-            students = [];
-            teachers = [];
-            attendanceRecords = {};
-            feeRecords = [];
-        }
+function showPage(pageId, button) {
+
+    document.querySelectorAll(".page")
+        .forEach(page => page.classList.remove("active"));
+
+    document.getElementById(pageId)
+        .classList.add("active");
+
+    document.querySelectorAll(".sidebar button")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+}
+
+
+function addStudent() {
+
+    let name =
+        document.getElementById("studentName").value.trim();
+
+    let father =
+        document.getElementById("fatherName").value.trim();
+
+    let phone =
+        document.getElementById("phone").value.trim();
+
+    let className =
+        document.getElementById("className").value;
+
+
+    if (!name || !father || !phone || !className) {
+
+        alert("Please fill all student details.");
+
+        return;
     }
 
-    window.addEventListener("DOMContentLoaded", function() {
-        loadAppData();
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById("attendanceDate").value = today;
+
+    students.push({
+        name: name,
+        father: father,
+        phone: phone,
+        className: className
     });
 
 
-    /* ----------------------------------
-       PAGE NAVIGATION LOGIC
-    ---------------------------------- */
-
-    function openPage(pageId) {
-        document.getElementById("home").classList.add("hidden");
-        document.getElementById("studentsPage").classList.add("hidden");
-        document.getElementById("teachersPage").classList.add("hidden");
-        document.getElementById("attendancePage").classList.add("hidden");
-        document.getElementById("feesPage").classList.add("hidden");
-        document.getElementById("backupPage").classList.add("hidden");
-
-        document.getElementById(pageId).classList.remove("hidden");
-
-        if (pageId === "studentsPage") {
-            displayStudents();
-        } else if (pageId === "teachersPage") {
-            displayTeachers();
-        } else if (pageId === "attendancePage") {
-            displayAttendance();
-        } else if (pageId === "feesPage") {
-            populateFeeStudentDropdown();
-            displayFees();
-        }
-    }
-
-    function goHome() {
-        document.getElementById("studentsPage").classList.add("hidden");
-        document.getElementById("teachersPage").classList.add("hidden");
-        document.getElementById("attendancePage").classList.add("hidden");
-        document.getElementById("feesPage").classList.add("hidden");
-        document.getElementById("backupPage").classList.add("hidden");
-
-        document.getElementById("home").classList.remove("hidden");
-    }
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
 
 
-    /* ----------------------------------
-       STUDENT MANAGEMENT
-    ---------------------------------- */
+    document.getElementById("studentName").value = "";
+    document.getElementById("fatherName").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("className").value = "";
 
-    function addStudent() {
-        let name = document.getElementById("studentName").value.trim();
-        let studentClass = document.getElementById("studentClass").value.trim();
-        let phone = document.getElementById("studentPhone").value.trim();
 
-        if (name === "") {
-            alert("Please enter a student name");
-            return;
-        }
+    displayStudents();
+}
 
-        let newStudent = {
-            id: Date.now(),
-            name: name,
-            className: studentClass || "Not specified",
-            phone: phone || "Not specified"
-        };
 
-        students.push(newStudent);
-        localStorage.setItem("students", JSON.stringify(students));
+function displayStudents() {
 
-        document.getElementById("studentName").value = "";
-        document.getElementById("studentClass").value = "";
-        document.getElementById("studentPhone").value = "";
+    let table =
+        document.getElementById("studentTable");
+
+    table.innerHTML = "";
+
+
+    students.forEach((student, index) => {
+
+        table.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${student.name}</td>
+                <td>${student.father}</td>
+                <td>${student.phone}</td>
+                <td>${student.className}</td>
+                <td>
+                    <button class="delete"
+                        onclick="deleteStudent(${index})">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `;
+
+    });
+
+
+    document.getElementById("studentCount")
+        .innerText = students.length;
+}
+
+
+function deleteStudent(index) {
+
+    if (confirm("Delete this student?")) {
+
+        students.splice(index, 1);
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
 
         displayStudents();
     }
-
-    function displayStudents() {
-        let list = document.getElementById("studentList");
-        let query = (document.getElementById("searchStudent")?.value || "").toLowerCase();
-
-        let filtered = students.filter(s => 
-            s.name.toLowerCase().includes(query) || 
-            s.className.toLowerCase().includes(query)
-        );
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p>No students found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(student => {
-            html += `
-                <div class="person">
-                    <strong>👤 ${escapeHtml(student.name)}</strong>
-                    <br>
-                    📚 Class: ${escapeHtml(student.className)}
-                    <br>
-                    📱 Phone: ${escapeHtml(student.phone)}
-                    <br>
-                    <button class="delete" onclick="deleteStudent(${student.id})">
-                        Delete
-                    </button>
-                </div>
-            `;
-        });
-
-        list.innerHTML = html;
-    }
-
-    function deleteStudent(id) {
-        if (!confirm("Are you sure you want to delete this student?")) return;
-        students = students.filter(student => student.id !== id);
-        localStorage.setItem("students", JSON.stringify(students));
-        displayStudents();
-    }
+}
 
 
-    /* ----------------------------------
-       TEACHER MANAGEMENT
-    ---------------------------------- */
+displayStudents();
 
-    function addTeacher() {
-        let name = document.getElementById("teacherName").value.trim();
-        let subject = document.getElementById("teacherSubject").value.trim();
-        let phone = document.getElementById("teacherPhone").value.trim();
+</script>
 
-        if (name === "") {
-            alert("Please enter a teacher name");
-            return;
-        }
-
-        let newTeacher = {
-            id: Date.now(),
-            name: name,
-            subject: subject || "Not specified",
-            phone: phone || "Not specified"
-        };
-
-        teachers.push(newTeacher);
-        localStorage.setItem("teachers", JSON.stringify(teachers));
-
-        document.getElementById("teacherName").value = "";
-        document.getElementById("teacherSubject").value = "";
-        document.getElementById("teacherPhone").value = "";
-
-        displayTeachers();
-    }
-
-    function displayTeachers() {
-        let list = document.getElementById("teacherList");
-        let query = (document.getElementById("searchTeacher")?.value || "").toLowerCase();
-
-        let filtered = teachers.filter(t => 
-            t.name.toLowerCase().includes(query) || 
-            t.subject.toLowerCase().includes(query)
-        );
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p>No teachers found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(teacher => {
-            html += `
-                <div class="person">
-                    <strong>👨‍🏫 ${escapeHtml(teacher.name)}</strong>
-                    <br>
-                    📚 Subject: ${escapeHtml(teacher.subject)}
-                    <br>
-                    📱 Phone: ${escapeHtml(teacher.phone)}
-                    <br>
-                    <button class="delete" onclick="deleteTeacher(${teacher.id})">
-                        Delete
-                    </button>
-                </div>
-            `;
-        });
-
-        list.innerHTML = html;
-    }
-
-    function deleteTeacher(id) {
-        if (!confirm("Are you sure you want to delete this teacher?")) return;
-        teachers = teachers.filter(teacher => teacher.id !== id);
-        localStorage.setItem("teachers", JSON.stringify(teachers));
-        displayTeachers();
-    }
-
-
-    /* ----------------------------------
-       ATTENDANCE MANAGEMENT
-    ---------------------------------- */
-
-    function displayAttendance() {
-        let date = document.getElementById("attendanceDate").value;
-        let list = document.getElementById("attendanceList");
-        let query = (document.getElementById("searchAttendance")?.value || "").toLowerCase();
-
-        if (!date) {
-            list.innerHTML = "<p>Please select a valid date.</p>";
-            return;
-        }
-
-        if (students.length === 0) {
-            list.innerHTML = "<p>No students found. Add students first in the Students section.</p>";
-            return;
-        }
-
-        if (!attendanceRecords[date]) {
-            attendanceRecords[date] = {};
-        }
-
-        let filtered = students.filter(s => s.name.toLowerCase().includes(query));
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p>No matching students found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(student => {
-            let status = attendanceRecords[date][student.id] || "None";
-
-            let presentClass = status === 'Present' ? 'btn-present' : 'btn-inactive';
-            let absentClass = status === 'Absent' ? 'btn-absent' : 'btn-inactive';
-
-            html += `
-                <div class="attendance-row">
-                    <div>
-                        <strong>👤 ${escapeHtml(student.name)}</strong> 
-                        <small>(${escapeHtml(student.className)})</small>
-                    </div>
-                    <div>
-                        <button class="status-btn ${presentClass}" 
-                                onclick="setAttendance('${date}', ${student.id}, 'Present')">
-                            Present
-                        </button>
-                        <button class="status-btn ${absentClass}" 
-                                onclick="setAttendance('${date}', ${student.id}, 'Absent')">
-                            Absent
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
-
-        list.innerHTML = html;
-    }
-
-    function setAttendance(date, studentId, status) {
-        if (!attendanceRecords[date]) {
-            attendanceRecords[date] = {};
-        }
-
-        attendanceRecords[date][studentId] = status;
-        localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
-        displayAttendance();
-    }
-
-
-    /* ----------------------------------
-       FEES MANAGEMENT
-    ---------------------------------- */
-
-    function populateFeeStudentDropdown() {
-        let select = document.getElementById("feeStudentSelect");
-        select.innerHTML = '<option value="">Select Student</option>';
-
-        students.forEach(student => {
-            select.innerHTML += `
-                <option value="${student.id}">${escapeHtml(student.name)} (${escapeHtml(student.className)})</option>
-            `;
-        });
-    }
-
-    function addFeeRecord() {
-        let studentId = document.getElementById("feeStudentSelect").value;
-        let amount = document.getElementById("feeAmount").value.trim();
-        let month = document.getElementById("feeMonth").value.trim();
-
-        if (!studentId) {
-            alert("Please select a student from the dropdown");
-            return;
-        }
-        if (amount === "" || Number(amount) <= 0) {
-            alert("Please enter a valid positive fee amount");
-            return;
-        }
-        if (month === "") {
-            alert("Please enter the period or month name");
-            return;
-        }
-
-        let matchedStudent = students.find(s => s.id == studentId);
-
-        let newRecord = {
-            id: Date.now(),
-            studentId: studentId,
-            studentName: matchedStudent ? matchedStudent.name : "Unknown",
-            amount: amount,
-            month: month,
-            dateRecorded: new Date().toLocaleDateString()
-        };
-
-        feeRecords.push(newRecord);
-        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
-
-        document.getElementById("feeAmount").value = "";
-        document.getElementById("feeMonth").value = "";
-        document.getElementById("feeStudentSelect").value = "";
-
-        displayFees();
-    }
-
-    function displayFees() {
-        let list = document.getElementById("feeList");
-        let query = (document.getElementById("searchFees")?.value || "").toLowerCase();
-
-        let filtered = feeRecords.filter(f => f.studentName.toLowerCase().includes(query));
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p>No fee records found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(record => {
-            html += `
-                <div class="person">
-                    <strong>👤 ${escapeHtml(record.studentName)}</strong>
-                    <br>
-                    💵 Amount Paid: ${escapeHtml(record.amount)}
-                    <br>
-                    🗓️ Period: ${escapeHtml(record.m
+</body>
+</html>
