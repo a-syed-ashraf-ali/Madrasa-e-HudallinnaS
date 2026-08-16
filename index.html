@@ -1,439 +1,890 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Madrasa-e-Hudallinnas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madarsa-e-Hudallinnas</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+    <style>
+        :root {
+            --primary: #0f5132;
+            --primary-hover: #0b3d26;
+            --primary-light: #e8f5e9;
+            --accent: #2e7d32;
+            --danger: #dc3545;
+            --danger-hover: #bb2d3b;
+            --dark: #1e293b;
+            --gray-light: #f8fafc;
+            --gray-border: #e2e8f0;
+            --text-muted: #64748b;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-    background: #f1f5f9;
-    color: #1e293b;
-}
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+        }
 
-header {
-    background: #075985;
-    color: white;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f1f5f9;
+            color: var(--dark);
+            min-height: 100vh;
+        }
 
-header h1 {
-    font-size: 24px;
-}
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #198754 100%);
+            color: white;
+            padding: 32px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
 
-.container {
-    display: flex;
-    min-height: calc(100vh - 70px);
-}
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
-.sidebar {
-    width: 230px;
-    background: #0f172a;
-    color: white;
-    padding: 20px 10px;
-}
+        header p {
+            margin: 6px 0 0 0;
+            opacity: 0.85;
+            font-size: 14px;
+        }
 
-.sidebar button {
-    width: 100%;
-    padding: 13px;
-    margin: 5px 0;
-    border: none;
-    background: transparent;
-    color: white;
-    text-align: left;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-}
+        .container {
+            padding: 24px 16px;
+            max-width: 800px;
+            margin: auto;
+        }
 
-.sidebar button:hover,
-.sidebar button.active {
-    background: #075985;
-}
+        /* GRID FOR DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
+        }
 
-.main {
-    flex: 1;
-    padding: 25px;
-}
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-border);
+            box-shadow: var(--shadow-sm);
+        }
 
-.page {
-    display: none;
-}
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
 
-.page.active {
-    display: block;
-}
+        .dash-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-border);
+            box-shadow: var(--shadow-sm);
+        }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
+        .dash-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
 
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0001;
-}
+        .dash-card h2 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.card h3 {
-    color: #64748b;
-    font-size: 15px;
-}
+        .dash-card p {
+            margin: 0 0 16px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
 
-.card p {
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #075985;
-}
+        .card h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: var(--dark);
+        }
 
-.form-box {
-    background: white;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0001;
-}
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-input, select {
-    padding: 11px;
-    margin: 5px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-}
+        button:hover {
+            background: var(--primary-hover);
+        }
 
-button.primary {
-    padding: 11px 18px;
-    background: #075985;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        button.btn-block {
+            width: 100%;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-}
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            margin: 8px 0 16px;
+            border: 1px solid var(--gray-border);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 14px;
+            background: #ffffff;
+        }
 
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #e2e8f0;
-    text-align: left;
-}
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 81, 50, 0.15);
+        }
 
-th {
-    background: #e0f2fe;
-}
+        .search-box {
+            background: var(--primary-light);
+            border-color: rgba(15, 81, 50, 0.2);
+        }
 
-.delete {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .hidden {
+            display: none !important;
+        }
 
-@media(max-width:700px) {
-    .sidebar {
-        width: 70px;
-    }
+        .back {
+            background: #475569;
+            margin-bottom: 16px;
+        }
 
-    .sidebar button {
-        font-size: 0;
-        text-align: center;
-    }
+        .back:hover {
+            background: #334155;
+        }
 
-    .sidebar button::first-letter {
-        font-size: 20px;
-    }
+        .delete {
+            background: var(--danger);
+            margin-top: 10px;
+            padding: 8px 14px;
+            font-size: 12px;
+        }
 
-    .main {
-        padding: 12px;
-    }
-}
-</style>
+        .delete:hover {
+            background: var(--danger-hover);
+        }
+
+        .btn-secondary {
+            background: #0288d1;
+        }
+
+        .btn-secondary:hover {
+            background: #0277bd;
+        }
+
+        .person {
+            background: var(--gray-light);
+            border: 1px solid var(--gray-border);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .person strong {
+            font-size: 16px;
+            color: var(--dark);
+        }
+
+        .attendance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray-light);
+            border: 1px solid var(--gray-border);
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: var(--radius-md);
+        }
+
+        .status-btn {
+            padding: 6px 14px;
+            font-size: 12px;
+            border-radius: 6px;
+        }
+
+        .btn-inactive {
+            background: #94a3b8;
+        }
+
+        .btn-present {
+            background: var(--accent);
+        }
+
+        .btn-absent {
+            background: var(--danger);
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <h1>🕌 Madrasa-e-Hudallinnas</h1>
-    <span>Management System</span>
+    <h1>Madarsa-e-Hudallinnas</h1>
+    <p>Management System</p>
 </header>
 
 <div class="container">
 
-    <aside class="sidebar">
-        <button class="active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
-        <button onclick="showPage('students', this)">👨‍🎓 Students</button>
-        <button onclick="showPage('teachers', this)">👨‍🏫 Teachers</button>
-        <button onclick="showPage('attendance', this)">📋 Attendance</button>
-        <button onclick="showPage('fees', this)">💰 Fees</button>
-    </aside>
+    <!-- HOME PAGE -->
+    <div id="home">
+        <div class="dashboard-grid">
 
-    <main class="main">
-
-        <!-- DASHBOARD -->
-        <section id="dashboard" class="page active">
-            <h2>Dashboard</h2>
-
-            <div class="cards">
-                <div class="card">
-                    <h3>Total Students</h3>
-                    <p id="studentCount">0</p>
+            <div class="dash-card">
+                <div>
+                    <h2>📚 Students</h2>
+                    <p>Manage student records & classes.</p>
                 </div>
-
-                <div class="card">
-                    <h3>Total Teachers</h3>
-                    <p>0</p>
-                </div>
-
-                <div class="card">
-                    <h3>Attendance</h3>
-                    <p>0%</p>
-                </div>
-
-                <div class="card">
-                    <h3>Fees Collected</h3>
-                    <p>₹0</p>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- STUDENTS -->
-        <section id="students" class="page">
-
-            <h2>👨‍🎓 Student Management</h2>
-
-            <div class="form-box">
-
-                <input type="text" id="studentName"
-                       placeholder="Student Name">
-
-                <input type="text" id="fatherName"
-                       placeholder="Father Name">
-
-                <input type="tel" id="phone"
-                       placeholder="Phone Number">
-
-                <select id="className">
-                    <option value="">Select Class</option>
-                    <option>Class 1</option>
-                    <option>Class 2</option>
-                    <option>Class 3</option>
-                    <option>Class 4</option>
-                    <option>Class 5</option>
-                    <option>Class 6</option>
-                    <option>Class 7</option>
-                    <option>Class 8</option>
-                    <option>Class 9</option>
-                    <option>Class 10</option>
-                </select>
-
-                <button class="primary"
-                        onclick="addStudent()">
-                    + Add Student
+                <button class="btn-block" onclick="openPage('studentsPage')">
+                    Open Students
                 </button>
-
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Student Name</th>
-                        <th>Father Name</th>
-                        <th>Phone</th>
-                        <th>Class</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody id="studentTable"></tbody>
-            </table>
-
-        </section>
-
-
-        <!-- TEACHERS -->
-        <section id="teachers" class="page">
-            <h2>👨‍🏫 Teachers</h2>
-
-            <div class="form-box">
-                <h3>Teacher Management</h3>
-                <p style="margin-top:10px">
-                    Teacher management will be added next.
-                </p>
+            <div class="dash-card">
+                <div>
+                    <h2>👨‍🏫 Teachers</h2>
+                    <p>Manage staff and subject assignments.</p>
+                </div>
+                <button class="btn-block" onclick="openPage('teachersPage')">
+                    Open Teachers
+                </button>
             </div>
-        </section>
 
-
-        <!-- ATTENDANCE -->
-        <section id="attendance" class="page">
-            <h2>📋 Attendance</h2>
-
-            <div class="form-box">
-                <h3>Attendance Management</h3>
-                <p style="margin-top:10px">
-                    Attendance system will be added next.
-                </p>
+            <div class="dash-card">
+                <div>
+                    <h2>📅 Attendance</h2>
+                    <p>Track daily student attendance.</p>
+                </div>
+                <button class="btn-block" onclick="openPage('attendancePage')">
+                    Open Attendance
+                </button>
             </div>
-        </section>
 
-
-        <!-- FEES -->
-        <section id="fees" class="page">
-            <h2>💰 Fees</h2>
-
-            <div class="form-box">
-                <h3>Fee Management</h3>
-                <p style="margin-top:10px">
-                    Fee management will be added next.
-                </p>
+            <div class="dash-card">
+                <div>
+                    <h2>💰 Fees</h2>
+                    <p>Track fee payments & receipts.</p>
+                </div>
+                <button class="btn-block" onclick="openPage('feesPage')">
+                    Open Fees
+                </button>
             </div>
-        </section>
 
-    </main>
+            <div class="dash-card">
+                <div>
+                    <h2>💾 Backup</h2>
+                    <p>Export or import system data.</p>
+                </div>
+                <button class="btn-block" onclick="openPage('backupPage')">
+                    Manage Backup
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- STUDENTS PAGE -->
+    <div id="studentsPage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+
+        <div class="card">
+            <h2>📚 Add Student</h2>
+
+            <input id="studentName" placeholder="Student Full Name">
+            <input id="studentClass" placeholder="Class / Grade">
+            <input id="studentPhone" placeholder="Contact Number">
+
+            <button class="btn-block" onclick="addStudent()">
+                ➕ Add Student Record
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Student Directory</h2>
+            <input id="searchStudent" class="search-box" placeholder="🔍 Search student by name or class..." oninput="displayStudents()">
+            <div id="studentList"></div>
+        </div>
+
+    </div>
+
+
+    <!-- TEACHERS PAGE -->
+    <div id="teachersPage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+
+        <div class="card">
+            <h2>👨‍🏫 Add Teacher</h2>
+
+            <input id="teacherName" placeholder="Teacher Full Name">
+            <input id="teacherSubject" placeholder="Department / Subject">
+            <input id="teacherPhone" placeholder="Contact Number">
+
+            <button class="btn-block" onclick="addTeacher()">
+                ➕ Add Teacher Record
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Teacher Directory</h2>
+            <input id="searchTeacher" class="search-box" placeholder="🔍 Search teacher by name or subject..." oninput="displayTeachers()">
+            <div id="teacherList"></div>
+        </div>
+
+    </div>
+
+
+    <!-- ATTENDANCE PAGE -->
+    <div id="attendancePage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+
+        <div class="card">
+            <h2>📅 Daily Attendance Logs</h2>
+            <label for="attendanceDate"><strong>Select Attendance Date:</strong></label>
+            <input type="date" id="attendanceDate" onchange="displayAttendance()">
+        </div>
+
+        <div class="card">
+            <h2>Attendance Roster</h2>
+            <input id="searchAttendance" class="search-box" placeholder="🔍 Filter student name..." oninput="displayAttendance()">
+            <div id="attendanceList"></div>
+        </div>
+
+    </div>
+
+
+    <!-- FEES PAGE -->
+    <div id="feesPage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+
+        <div class="card">
+            <h2>💰 Record Fee Receipt</h2>
+
+            <select id="feeStudentSelect">
+                <option value="">Select Student</option>
+            </select>
+
+            <input id="feeAmount" type="number" placeholder="Payment Amount">
+            <input id="feeMonth" placeholder="Payment Period (e.g. August 2026)">
+
+            <button class="btn-block" onclick="addFeeRecord()">
+                💾 Record Payment
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Payment History</h2>
+            <input id="searchFees" class="search-box" placeholder="🔍 Search records by student name..." oninput="displayFees()">
+            <div id="feeList"></div>
+        </div>
+
+    </div>
+
+
+    <!-- BACKUP PAGE -->
+    <div id="backupPage" class="hidden">
+
+        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+
+        <div class="card">
+            <h2>📥 Download Data Backup</h2>
+            <p>Save all system records to a local JSON file for safekeeping.</p>
+            <button class="btn-block" onclick="exportBackup()">Download Backup (.JSON)</button>
+        </div>
+
+        <div class="card">
+            <h2>📤 Restore Data Backup</h2>
+            <p>Load your system data from an existing backup file.</p>
+            <input type="file" id="backupFileInput" accept=".json">
+            <button class="btn-secondary btn-block" onclick="importBackup()">Restore Backup File</button>
+        </div>
+
+    </div>
+
 </div>
 
 
 <script>
 
-let students =
-    JSON.parse(localStorage.getItem("students")) || [];
+    /* ----------------------------------
+       GLOBAL APP STATE & INITIALIZATION
+    ---------------------------------- */
+
+    let students = [];
+    let teachers = [];
+    let attendanceRecords = {};
+    let feeRecords = [];
+
+    function loadAppData() {
+        try {
+            students = JSON.parse(localStorage.getItem("students")) || [];
+            teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+            attendanceRecords = JSON.parse(localStorage.getItem("attendanceRecords")) || {};
+            feeRecords = JSON.parse(localStorage.getItem("feeRecords")) || [];
+        } catch (e) {
+            console.error("Error loading stored data:", e);
+            students = [];
+            teachers = [];
+            attendanceRecords = {};
+            feeRecords = [];
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", function() {
+        loadAppData();
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("attendanceDate").value = today;
+    });
 
 
-function showPage(pageId, button) {
+    /* ----------------------------------
+       NAVIGATION
+    ---------------------------------- */
 
-    document.querySelectorAll(".page")
-        .forEach(page => page.classList.remove("active"));
+    function openPage(pageId) {
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("studentsPage").classList.add("hidden");
+        document.getElementById("teachersPage").classList.add("hidden");
+        document.getElementById("attendancePage").classList.add("hidden");
+        document.getElementById("feesPage").classList.add("hidden");
+        document.getElementById("backupPage").classList.add("hidden");
 
-    document.getElementById(pageId)
-        .classList.add("active");
+        document.getElementById(pageId).classList.remove("hidden");
 
-    document.querySelectorAll(".sidebar button")
-        .forEach(btn => btn.classList.remove("active"));
+        if (pageId === "studentsPage") {
+            displayStudents();
+        } else if (pageId === "teachersPage") {
+            displayTeachers();
+        } else if (pageId === "attendancePage") {
+            displayAttendance();
+        } else if (pageId === "feesPage") {
+            populateFeeStudentDropdown();
+            displayFees();
+        }
+    }
 
-    button.classList.add("active");
-}
+    function goHome() {
+        document.getElementById("studentsPage").classList.add("hidden");
+        document.getElementById("teachersPage").classList.add("hidden");
+        document.getElementById("attendancePage").classList.add("hidden");
+        document.getElementById("feesPage").classList.add("hidden");
+        document.getElementById("backupPage").classList.add("hidden");
 
-
-function addStudent() {
-
-    let name =
-        document.getElementById("studentName").value.trim();
-
-    let father =
-        document.getElementById("fatherName").value.trim();
-
-    let phone =
-        document.getElementById("phone").value.trim();
-
-    let className =
-        document.getElementById("className").value;
-
-
-    if (!name || !father || !phone || !className) {
-
-        alert("Please fill all student details.");
-
-        return;
+        document.getElementById("home").classList.remove("hidden");
     }
 
 
-    students.push({
-        name: name,
-        father: father,
-        phone: phone,
-        className: className
-    });
+    /* ----------------------------------
+       STUDENTS
+    ---------------------------------- */
 
+    function addStudent() {
+        let name = document.getElementById("studentName").value.trim();
+        let studentClass = document.getElementById("studentClass").value.trim();
+        let phone = document.getElementById("studentPhone").value.trim();
 
-    localStorage.setItem(
-        "students",
-        JSON.stringify(students)
-    );
+        if (name === "") {
+            alert("Please provide a student name.");
+            return;
+        }
 
+        let newStudent = {
+            id: Date.now(),
+            name: name,
+            className: studentClass || "Not assigned",
+            phone: phone || "Not provided"
+        };
 
-    document.getElementById("studentName").value = "";
-    document.getElementById("fatherName").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("className").value = "";
+        students.push(newStudent);
+        localStorage.setItem("students", JSON.stringify(students));
 
-
-    displayStudents();
-}
-
-
-function displayStudents() {
-
-    let table =
-        document.getElementById("studentTable");
-
-    table.innerHTML = "";
-
-
-    students.forEach((student, index) => {
-
-        table.innerHTML += `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${student.name}</td>
-                <td>${student.father}</td>
-                <td>${student.phone}</td>
-                <td>${student.className}</td>
-                <td>
-                    <button class="delete"
-                        onclick="deleteStudent(${index})">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        `;
-
-    });
-
-
-    document.getElementById("studentCount")
-        .innerText = students.length;
-}
-
-
-function deleteStudent(index) {
-
-    if (confirm("Delete this student?")) {
-
-        students.splice(index, 1);
-
-        localStorage.setItem(
-            "students",
-            JSON.stringify(students)
-        );
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentClass").value = "";
+        document.getElementById("studentPhone").value = "";
 
         displayStudents();
     }
-}
+
+    function displayStudents() {
+        let list = document.getElementById("studentList");
+        let query = (document.getElementById("searchStudent")?.value || "").toLowerCase();
+
+        let filtered = students.filter(s => 
+            s.name.toLowerCase().includes(query) || 
+            s.className.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+            list.innerHTML = "<p style='color:var(--text-muted);'>No students found.</p>";
+            return;
+        }
+
+        let html = "";
+        filtered.forEach(student => {
+            html += `
+                <div class="person">
+                    <strong>👤 ${escapeHtml(student.name)}</strong>
+                    <br>
+                    📚 Class: ${escapeHtml(student.className)}
+                    <br>
+                    📱 Phone: ${escapeHtml(student.phone)}
+                    <br>
+                    <button class="delete" onclick="deleteStudent(${student.id})">
+                        Delete
+                    </button>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function deleteStudent(id) {
+        if (!confirm("Remove this student?")) return;
+        students = students.filter(student => student.id !== id);
+        localStorage.setItem("students", JSON.stringify(students));
+        displayStudents();
+    }
 
 
-displayStudents();
+    /* ----------------------------------
+       TEACHERS
+    ---------------------------------- */
+
+    function addTeacher() {
+        let name = document.getElementById("teacherName").value.trim();
+        let subject = document.getElementById("teacherSubject").value.trim();
+        let phone = document.getElementById("teacherPhone").value.trim();
+
+        if (name === "") {
+            alert("Please enter a teacher name.");
+            return;
+        }
+
+        let newTeacher = {
+            id: Date.now(),
+            name: name,
+            subject: subject || "General",
+            phone: phone || "Not provided"
+        };
+
+        teachers.push(newTeacher);
+        localStorage.setItem("teachers", JSON.stringify(teachers));
+
+        document.getElementById("teacherName").value = "";
+        document.getElementById("teacherSubject").value = "";
+        document.getElementById("teacherPhone").value = "";
+
+        displayTeachers();
+    }
+
+    function displayTeachers() {
+        let list = document.getElementById("teacherList");
+        let query = (document.getElementById("searchTeacher")?.value || "").toLowerCase();
+
+        let filtered = teachers.filter(t => 
+            t.name.toLowerCase().includes(query) || 
+            t.subject.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+            list.innerHTML = "<p style='color:var(--text-muted);'>No teachers found.</p>";
+            return;
+        }
+
+        let html = "";
+        filtered.forEach(teacher => {
+            html += `
+                <div class="person">
+                    <strong>👨‍🏫 ${escapeHtml(teacher.name)}</strong>
+                    <br>
+                    📚 Subject: ${escapeHtml(teacher.subject)}
+                    <br>
+                    📱 Phone: ${escapeHtml(teacher.phone)}
+                    <br>
+                    <button class="delete" onclick="deleteTeacher(${teacher.id})">
+                        Delete
+                    </button>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function deleteTeacher(id) {
+        if (!confirm("Remove this teacher?")) return;
+        teachers = teachers.filter(teacher => teacher.id !== id);
+        localStorage.setItem("teachers", JSON.stringify(teachers));
+        displayTeachers();
+    }
+
+
+    /* ----------------------------------
+       ATTENDANCE
+    ---------------------------------- */
+
+    function displayAttendance() {
+        let date = document.getElementById("attendanceDate").value;
+        let list = document.getElementById("attendanceList");
+        let query = (document.getElementById("searchAttendance")?.value || "").toLowerCase();
+
+        if (!date) {
+            list.innerHTML = "<p>Select a date to begin.</p>";
+            return;
+        }
+
+        if (students.length === 0) {
+            list.innerHTML = "<p style='color:var(--text-muted);'>No students in system. Add students first.</p>";
+            return;
+        }
+
+        if (!attendanceRecords[date]) {
+            attendanceRecords[date] = {};
+        }
+
+        let filtered = students.filter(s => s.name.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+            list.innerHTML = "<p style='color:var(--text-muted);'>No matching students found.</p>";
+            return;
+        }
+
+        let html = "";
+        filtered.forEach(student => {
+            let status = attendanceRecords[date][student.id] || "None";
+
+            let presentClass = status === 'Present' ? 'btn-present' : 'btn-inactive';
+            let absentClass = status === 'Absent' ? 'btn-absent' : 'btn-inactive';
+
+            html += `
+                <div class="attendance-row">
+                    <div>
+                        <strong>👤 ${escapeHtml(student.name)}</strong> 
+                        <br><small style="color:var(--text-muted)">Class: ${escapeHtml(student.className)}</small>
+                    </div>
+                    <div>
+                        <button class="status-btn ${presentClass}" 
+                                onclick="setAttendance('${date}', ${student.id}, 'Present')">
+                            Present
+                        </button>
+                        <button class="status-btn ${absentClass}" 
+                                onclick="setAttendance('${date}', ${student.id}, 'Absent')">
+                            Absent
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function setAttendance(date, studentId, status) {
+        if (!attendanceRecords[date]) {
+            attendanceRecords[date] = {};
+        }
+
+        attendanceRecords[date][studentId] = status;
+        localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
+        displayAttendance();
+    }
+
+
+    /* ----------------------------------
+       FEES
+    ---------------------------------- */
+
+    function populateFeeStudentDropdown() {
+        let select = document.getElementById("feeStudentSelect");
+        select.innerHTML = '<option value="">Select Student</option>';
+
+        students.forEach(student => {
+            select.innerHTML += `
+                <option value="${student.id}">${escapeHtml(student.name)} (${escapeHtml(student.className)})</option>
+            `;
+        });
+    }
+
+    function addFeeRecord() {
+        let studentId = document.getElementById("feeStudentSelect").value;
+        let amount = document.getElementById("feeAmount").value.trim();
+        let month = document.getElementById("feeMonth").value.trim();
+
+        if (!studentId) {
+            alert("Please choose a student.");
+            return;
+        }
+        if (amount === "" || Number(amount) <= 0) {
+            alert("Please enter a valid amount.");
+            return;
+        }
+        if (month === "") {
+            alert("Please input the fee period.");
+            return;
+        }
+
+        let matchedStudent = students.find(s => s.id == studentId);
+
+        let newRecord = {
+            id: Date.now(),
+            studentId: studentId,
+            studentName: matchedStudent ? matchedStudent.name : "Unknown",
+            amount: amount,
+            month: month,
+            dateRecorded: new Date().toLocaleDateString()
+        };
+
+        feeRecords.push(newRecord);
+        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
+
+        document.getElementById("feeAmount").value = "";
+        document.getElementById("feeMonth").value = "";
+        document.getElementById("feeStudentSelect").value = "";
+
+        displayFees();
+    }
+
+    function displayFees() {
+        let list = document.getElementById("feeList");
+        let query = (document.getElementById("searchFees")?.value || "").toLowerCase();
+
+        let filtered = feeRecords.filter(f => f.studentName.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+            list.innerHTML = "<p style='color:var(--text-muted);'>No fee receipts found.</p>";
+            return;
+        }
+
+        let html = "";
+        filtered.forEach(record => {
+            html += `
+                <div class="person">
+                    <strong>👤 ${escapeHtml(record.studentName)}</strong>
+                    <br>
+                    💵 Amount Paid: ${escapeHtml(record.amount)}
+                    <br>
+                    🗓️ Period: ${escapeHtml(record.month)}
+                    <br>
+                    📅 Recorded: ${escapeHtml(record.dateRecorded)}
+                    <br>
+                    <button class="delete" onclick="deleteFeeRecord(${record.id})">
+                        Delete Record
+                    </button>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function deleteFeeRecord(id) {
+        if (!confirm("Delete payment receipt record?")) return;
+        feeRecords = feeRecords.filter(record => record.id !== id);
+        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
+        displayFees();
+    }
+
+
+    /* ----------------------------------
+       BACKUP & UTILS
+    ---------------------------------- */
+
+    function exportBackup() {
+        let backupData = {
+            students: students,
+            teachers: teachers,
+            attendanceRecords: attendanceRecords,
+            feeRecords: feeRecords
+        };
+
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        let downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `madarsa_backup_${new Date().toISOString().split('T')[0]}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    function importBackup() {
+        let fileInput = document.getElementById('backupFileInput');
+        let file = fileInput.files[0];
+
+        if (!file) {
+            alert("Choose a backup JSON file first.");
+            return;
+        }
+
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                let data = JSON.parse(e.target.result);
+                if (data.students && data.teachers) {
+                    students = data.students || [];
+                    teachers = data.teachers || [];
+                    attendanceRecords = data.attendanceRecords || {};
+                    feeRecords = data.feeRecords || [];
+
+                    localStorage.setItem("students", JSON.stringify(students));
+                    localStorage.setItem("teachers", JSON.stringify(teachers));
+                    localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
+                    localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
+
+                    alert("Backup imported successfully!");
+                    goHome();
+                } else {
+                    alert("Unrecognized backup file structure.");
+                }
+            } catch (err) {
+                alert("File reading error: " + err.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
 </script>
 
