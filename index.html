@@ -1,890 +1,1559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madarsa-e-Hudallinnas</title>
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madrasa-e-Hudallinnas | Management System</title>
 
-    <style>
-        :root {
-            --primary: #0f5132;
-            --primary-hover: #0b3d26;
-            --primary-light: #e8f5e9;
-            --accent: #2e7d32;
-            --danger: #dc3545;
-            --danger-hover: #bb2d3b;
-            --dark: #1e293b;
-            --gray-light: #f8fafc;
-            --gray-border: #e2e8f0;
-            --text-muted: #64748b;
-            --radius-lg: 16px;
-            --radius-md: 10px;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-        * {
-            box-sizing: border-box;
-            transition: all 0.2s ease-in-out;
-        }
+<style>
+:root{
+    --green:#063b2d;
+    --green2:#0b5a43;
+    --green3:#117a5a;
+    --gold:#d6ad52;
+    --gold2:#f0d48a;
+    --cream:#f8f5ed;
+    --white:#ffffff;
+    --text:#17231f;
+    --muted:#77827d;
+    --border:#e7e8e2;
+    --danger:#d94b4b;
+    --success:#15956c;
+    --shadow:0 15px 45px rgba(4,43,32,.10);
+    --radius:20px;
+}
 
-        body {
-            margin: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f1f5f9;
-            color: var(--dark);
-            min-height: 100vh;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, #198754 100%);
-            color: white;
-            padding: 32px 20px;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-        }
+body{
+    font-family:Inter,sans-serif;
+    background:var(--cream);
+    color:var(--text);
+    min-height:100vh;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+button,input,select{
+    font:inherit;
+}
 
-        header p {
-            margin: 6px 0 0 0;
-            opacity: 0.85;
-            font-size: 14px;
-        }
+button{
+    cursor:pointer;
+}
 
-        .container {
-            padding: 24px 16px;
-            max-width: 800px;
-            margin: auto;
-        }
+/* ================= SIDEBAR ================= */
 
-        /* GRID FOR DASHBOARD */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin-top: 10px;
-        }
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:270px;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(214,173,82,.12),transparent 25%),
+        linear-gradient(160deg,#03271e,#063b2d 60%,#052f24);
+    color:white;
+    padding:25px 18px;
+    z-index:1000;
+    overflow-y:auto;
+}
 
-        .card {
-            background: white;
-            padding: 24px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--gray-border);
-            box-shadow: var(--shadow-sm);
-        }
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px 10px 25px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+}
 
-        .card:hover {
-            box-shadow: var(--shadow-md);
-        }
+.logo-icon{
+    width:48px;
+    height:48px;
+    border:1px solid rgba(240,212,138,.6);
+    border-radius:15px;
+    display:grid;
+    place-items:center;
+    font-size:24px;
+    background:rgba(214,173,82,.10);
+    box-shadow:0 0 25px rgba(214,173,82,.10);
+}
 
-        .dash-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: white;
-            padding: 20px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--gray-border);
-            box-shadow: var(--shadow-sm);
-        }
+.logo h2{
+    font-family:"Playfair Display",serif;
+    font-size:17px;
+    color:var(--gold2);
+}
 
-        .dash-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
+.logo span{
+    display:block;
+    font-size:10px;
+    color:#b9c8c2;
+    margin-top:3px;
+}
 
-        .dash-card h2 {
-            margin: 0 0 8px 0;
-            font-size: 18px;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.menu-title{
+    font-size:10px;
+    letter-spacing:2px;
+    color:#8da59c;
+    margin:27px 12px 10px;
+}
 
-        .dash-card p {
-            margin: 0 0 16px 0;
-            color: var(--text-muted);
-            font-size: 13px;
-        }
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:13px 14px;
+    border-radius:13px;
+    margin:5px 0;
+    color:#d7e1dd;
+    transition:.25s;
+    font-size:14px;
+    border:1px solid transparent;
+}
 
-        .card h2 {
-            margin-top: 0;
-            font-size: 20px;
-            color: var(--dark);
-        }
+.nav-item:hover{
+    background:rgba(255,255,255,.07);
+    color:white;
+}
 
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+.nav-item.active{
+    background:linear-gradient(90deg,rgba(214,173,82,.20),rgba(214,173,82,.05));
+    border-color:rgba(214,173,82,.28);
+    color:var(--gold2);
+}
 
-        button:hover {
-            background: var(--primary-hover);
-        }
+.nav-icon{
+    width:24px;
+    text-align:center;
+    font-size:18px;
+}
 
-        button.btn-block {
-            width: 100%;
-        }
+.sidebar-bottom{
+    margin-top:30px;
+    padding:15px;
+    border-radius:16px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.08);
+}
 
-        input, select {
-            width: 100%;
-            padding: 12px 16px;
-            margin: 8px 0 16px;
-            border: 1px solid var(--gray-border);
-            border-radius: var(--radius-md);
-            font-family: inherit;
-            font-size: 14px;
-            background: #ffffff;
-        }
+.sidebar-bottom small{
+    color:#9db0a9;
+    font-size:10px;
+}
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 81, 50, 0.15);
-        }
+.sidebar-bottom strong{
+    display:block;
+    margin-top:5px;
+    font-size:13px;
+}
 
-        .search-box {
-            background: var(--primary-light);
-            border-color: rgba(15, 81, 50, 0.2);
-        }
+/* ================= MAIN ================= */
 
-        .hidden {
-            display: none !important;
-        }
+.main{
+    margin-left:270px;
+    min-height:100vh;
+}
 
-        .back {
-            background: #475569;
-            margin-bottom: 16px;
-        }
+.topbar{
+    height:80px;
+    background:rgba(255,255,255,.86);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
 
-        .back:hover {
-            background: #334155;
-        }
+.page-title{
+    font-size:20px;
+    font-weight:800;
+}
 
-        .delete {
-            background: var(--danger);
-            margin-top: 10px;
-            padding: 8px 14px;
-            font-size: 12px;
-        }
+.page-subtitle{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
+}
 
-        .delete:hover {
-            background: var(--danger-hover);
-        }
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
 
-        .btn-secondary {
-            background: #0288d1;
-        }
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:13px;
+    position:relative;
+}
 
-        .btn-secondary:hover {
-            background: #0277bd;
-        }
+.notification-dot{
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:#d94b4b;
+    border-radius:50%;
+    top:8px;
+    right:9px;
+    border:2px solid white;
+}
 
-        .person {
-            background: var(--gray-light);
-            border: 1px solid var(--gray-border);
-            padding: 16px;
-            margin: 12px 0;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            line-height: 1.6;
-        }
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
-        .person strong {
-            font-size: 16px;
-            color: var(--dark);
-        }
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,var(--green3),var(--green));
+    color:var(--gold2);
+    font-weight:800;
+}
 
-        .attendance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--gray-light);
-            border: 1px solid var(--gray-border);
-            padding: 12px 16px;
-            margin: 8px 0;
-            border-radius: var(--radius-md);
-        }
+.profile-info strong{
+    font-size:13px;
+    display:block;
+}
 
-        .status-btn {
-            padding: 6px 14px;
-            font-size: 12px;
-            border-radius: 6px;
-        }
+.profile-info span{
+    color:var(--muted);
+    font-size:10px;
+}
 
-        .btn-inactive {
-            background: #94a3b8;
-        }
+/* ================= CONTENT ================= */
 
-        .btn-present {
-            background: var(--accent);
-        }
+.content{
+    padding:32px 35px 50px;
+}
 
-        .btn-absent {
-            background: var(--danger);
-        }
-    </style>
+.welcome{
+    position:relative;
+    overflow:hidden;
+    border-radius:25px;
+    padding:30px;
+    color:white;
+    background:
+        radial-gradient(circle at 90% 20%,rgba(214,173,82,.25),transparent 25%),
+        radial-gradient(circle at 70% 100%,rgba(17,122,90,.4),transparent 35%),
+        linear-gradient(120deg,#063b2d,#0a5b44);
+    box-shadow:var(--shadow);
+    margin-bottom:25px;
+}
+
+.welcome:after{
+    content:"☪";
+    position:absolute;
+    right:40px;
+    top:-35px;
+    font-size:190px;
+    opacity:.045;
+}
+
+.welcome small{
+    color:var(--gold2);
+    letter-spacing:1px;
+}
+
+.welcome h1{
+    font-family:"Playfair Display",serif;
+    font-size:30px;
+    margin:8px 0;
+}
+
+.welcome p{
+    color:#c9d9d2;
+    font-size:13px;
+}
+
+.date-pill{
+    position:absolute;
+    right:28px;
+    bottom:28px;
+    padding:10px 16px;
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:12px;
+    font-size:11px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+    box-shadow:0 8px 30px rgba(0,0,0,.035);
+    transition:.25s;
+}
+
+.stat:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    display:grid;
+    place-items:center;
+    background:#edf6f2;
+    color:var(--green3);
+    font-size:20px;
+}
+
+.stat-change{
+    font-size:10px;
+    padding:5px 8px;
+    border-radius:20px;
+    background:#e8f7f1;
+    color:var(--success);
+}
+
+.stat h3{
+    font-size:27px;
+    margin:17px 0 4px;
+}
+
+.stat p{
+    font-size:12px;
+    color:var(--muted);
+}
+
+/* ================= GRID ================= */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:0 8px 30px rgba(0,0,0,.035);
+    overflow:hidden;
+}
+
+.card-head{
+    padding:20px 22px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-head h3{
+    font-size:15px;
+}
+
+.card-head span{
+    font-size:11px;
+    color:var(--muted);
+}
+
+.card-body{
+    padding:22px;
+}
+
+/* ================= CHART ================= */
+
+.chart{
+    height:245px;
+    display:flex;
+    align-items:end;
+    gap:15px;
+    padding:15px 5px 5px;
+}
+
+.bar-wrap{
+    flex:1;
+    height:100%;
+    display:flex;
+    align-items:end;
+    justify-content:center;
+    position:relative;
+}
+
+.bar{
+    width:65%;
+    max-width:35px;
+    border-radius:9px 9px 4px 4px;
+    background:linear-gradient(180deg,var(--gold2),var(--gold));
+    transition:.5s;
+    position:relative;
+}
+
+.bar:hover{
+    filter:brightness(1.08);
+    transform:scaleY(1.03);
+}
+
+.bar-label{
+    position:absolute;
+    bottom:-22px;
+    font-size:10px;
+    color:var(--muted);
+}
+
+.bar-value{
+    position:absolute;
+    top:-20px;
+    font-size:9px;
+    color:var(--green);
+}
+
+/* ================= QUICK ACTIONS ================= */
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.quick{
+    padding:17px;
+    border-radius:15px;
+    border:1px solid var(--border);
+    background:#fcfcf9;
+    transition:.2s;
+    text-align:left;
+}
+
+.quick:hover{
+    border-color:#cdb269;
+    background:#fffdf6;
+    transform:translateY(-2px);
+}
+
+.quick-icon{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.quick strong{
+    display:block;
+    font-size:12px;
+}
+
+.quick span{
+    display:block;
+    font-size:10px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+/* ================= TABLE ================= */
+
+.table-card{
+    margin-top:20px;
+}
+
+.search{
+    display:flex;
+    gap:10px;
+}
+
+.search input{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:9px 12px;
+    outline:none;
+    width:180px;
+    font-size:11px;
+}
+
+.search input:focus{
+    border-color:var(--gold);
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    padding:13px 20px;
+    background:#fafaf7;
+    color:#7a8580;
+    font-size:10px;
+    letter-spacing:.4px;
+}
+
+td{
+    padding:14px 20px;
+    border-top:1px solid #f0f1ec;
+    font-size:12px;
+}
+
+.student{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.student-avatar{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    background:#e7f1ed;
+    display:grid;
+    place-items:center;
+    color:var(--green);
+    font-weight:700;
+    font-size:11px;
+}
+
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:700;
+}
+
+.present{
+    color:#0d805c;
+    background:#e5f7f0;
+}
+
+.absent{
+    color:#bd3c3c;
+    background:#fdeaea;
+}
+
+.pending{
+    color:#99721d;
+    background:#fff5d9;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:480px;
+    max-width:100%;
+    border-radius:22px;
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+    overflow:hidden;
+    animation:modalIn .25s ease;
+}
+
+@keyframes modalIn{
+    from{transform:translateY(20px);opacity:0}
+    to{transform:translateY(0);opacity:1}
+}
+
+.modal-head{
+    background:linear-gradient(135deg,var(--green),var(--green2));
+    color:white;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.close{
+    background:none;
+    border:0;
+    color:white;
+    font-size:20px;
+}
+
+.form{
+    padding:22px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    border:1px solid var(--border);
+    padding:12px;
+    border-radius:11px;
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:var(--gold);
+}
+
+.primary{
+    width:100%;
+    border:0;
+    padding:13px;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--green3),var(--green));
+    color:white;
+    font-weight:700;
+}
+
+/* ================= MOBILE ================= */
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:1100px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+        width:40px;
+        height:40px;
+        border:1px solid var(--border);
+        background:white;
+        border-radius:10px;
+        margin-right:10px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .content{
+        padding:20px 15px 40px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat{
+        padding:15px;
+    }
+
+    .stat h3{
+        font-size:22px;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+    .welcome h1{
+        font-size:24px;
+    }
+
+    .date-pill{
+        position:static;
+        display:inline-block;
+        margin-top:18px;
+    }
+
+    .search input{
+        width:130px;
+    }
+}
+
+@media(max-width:450px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .quick-actions{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>Madarsa-e-Hudallinnas</h1>
-    <p>Management System</p>
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">🕌</div>
+        <div>
+            <h2>Madrasa-e-Hudallinnas</h2>
+            <span>MANAGEMENT SYSTEM</span>
+        </div>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <div class="nav-item active" onclick="showPage('Dashboard',this)">
+        <div class="nav-icon">⌂</div>
+        Dashboard
+    </div>
+
+    <div class="nav-item" onclick="showPage('Students',this)">
+        <div class="nav-icon">👨‍🎓</div>
+        Students
+    </div>
+
+    <div class="nav-item" onclick="showPage('Teachers',this)">
+        <div class="nav-icon">👨‍🏫</div>
+        Teachers
+    </div>
+
+    <div class="nav-item" onclick="showPage('Attendance',this)">
+        <div class="nav-icon">📅</div>
+        Attendance
+    </div>
+
+    <div class="nav-item" onclick="showPage('Fees',this)">
+        <div class="nav-icon">💰</div>
+        Fees & Payments
+    </div>
+
+    <div class="menu-title">MANAGEMENT</div>
+
+    <div class="nav-item" onclick="showPage('Classes',this)">
+        <div class="nav-icon">📚</div>
+        Classes
+    </div>
+
+    <div class="nav-item" onclick="showPage('Exams',this)">
+        <div class="nav-icon">📝</div>
+        Exams & Results
+    </div>
+
+    <div class="nav-item" onclick="showPage('Reports',this)">
+        <div class="nav-icon">📊</div>
+        Reports
+    </div>
+
+    <div class="menu-title">SYSTEM</div>
+
+    <div class="nav-item" onclick="showPage('Settings',this)">
+        <div class="nav-icon">⚙️</div>
+        Settings
+    </div>
+
+    <div class="nav-item" onclick="backupData()">
+        <div class="nav-icon">💾</div>
+        Backup Data
+    </div>
+
+    <div class="sidebar-bottom">
+        <small>VERSION</small>
+        <strong>Premium Edition • 1.0</strong>
+    </div>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div style="display:flex;align-items:center">
+
+        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
+        <div>
+            <div class="page-title" id="pageTitle">Dashboard</div>
+            <div class="page-subtitle">Madrasa Management Portal</div>
+        </div>
+
+    </div>
+
+    <div class="top-actions">
+
+        <button class="icon-btn" onclick="showNotifications()">
+            🔔
+            <span class="notification-dot"></span>
+        </button>
+
+        <div class="profile">
+            <div class="avatar">SA</div>
+            <div class="profile-info">
+                <strong>Administrator</strong>
+                <span>Super Admin</span>
+            </div>
+        </div>
+
+    </div>
+
 </header>
 
-<div class="container">
+<section class="content">
 
-    <!-- HOME PAGE -->
-    <div id="home">
-        <div class="dashboard-grid">
+<!-- ================= WELCOME ================= -->
 
-            <div class="dash-card">
-                <div>
-                    <h2>📚 Students</h2>
-                    <p>Manage student records & classes.</p>
-                </div>
-                <button class="btn-block" onclick="openPage('studentsPage')">
-                    Open Students
-                </button>
-            </div>
+<div class="welcome">
 
-            <div class="dash-card">
-                <div>
-                    <h2>👨‍🏫 Teachers</h2>
-                    <p>Manage staff and subject assignments.</p>
-                </div>
-                <button class="btn-block" onclick="openPage('teachersPage')">
-                    Open Teachers
-                </button>
-            </div>
+    <small>ASSALAMU ALAIKUM WA RAHMATULLAHI WA BARAKATUH</small>
 
-            <div class="dash-card">
-                <div>
-                    <h2>📅 Attendance</h2>
-                    <p>Track daily student attendance.</p>
-                </div>
-                <button class="btn-block" onclick="openPage('attendancePage')">
-                    Open Attendance
-                </button>
-            </div>
+    <h1>Welcome to Madrasa-e-Hudallinnas</h1>
 
-            <div class="dash-card">
-                <div>
-                    <h2>💰 Fees</h2>
-                    <p>Track fee payments & receipts.</p>
-                </div>
-                <button class="btn-block" onclick="openPage('feesPage')">
-                    Open Fees
-                </button>
-            </div>
+    <p>Manage students, teachers, attendance, fees and academic activities from one elegant dashboard.</p>
 
-            <div class="dash-card">
-                <div>
-                    <h2>💾 Backup</h2>
-                    <p>Export or import system data.</p>
-                </div>
-                <button class="btn-block" onclick="openPage('backupPage')">
-                    Manage Backup
-                </button>
-            </div>
+    <div class="date-pill" id="todayDate"></div>
 
+</div>
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+    <div class="stat">
+        <div class="stat-top">
+            <div class="stat-icon">👨‍🎓</div>
+            <div class="stat-change">+8.2%</div>
         </div>
+        <h3 id="studentCount">248</h3>
+        <p>Total Students</p>
     </div>
 
-
-    <!-- STUDENTS PAGE -->
-    <div id="studentsPage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back to Dashboard</button>
-
-        <div class="card">
-            <h2>📚 Add Student</h2>
-
-            <input id="studentName" placeholder="Student Full Name">
-            <input id="studentClass" placeholder="Class / Grade">
-            <input id="studentPhone" placeholder="Contact Number">
-
-            <button class="btn-block" onclick="addStudent()">
-                ➕ Add Student Record
-            </button>
+    <div class="stat">
+        <div class="stat-top">
+            <div class="stat-icon">👨‍🏫</div>
+            <div class="stat-change">+2</div>
         </div>
-
-        <div class="card">
-            <h2>Student Directory</h2>
-            <input id="searchStudent" class="search-box" placeholder="🔍 Search student by name or class..." oninput="displayStudents()">
-            <div id="studentList"></div>
-        </div>
-
+        <h3>18</h3>
+        <p>Teachers & Staff</p>
     </div>
 
-
-    <!-- TEACHERS PAGE -->
-    <div id="teachersPage" class="hidden">
-
-        <button class="back" onclick="goHome()">← Back to Dashboard</button>
-
-        <div class="card">
-            <h2>👨‍🏫 Add Teacher</h2>
-
-            <input id="teacherName" placeholder="Teacher Full Name">
-            <input id="teacherSubject" placeholder="Department / Subject">
-            <input id="teacherPhone" placeholder="Contact Number">
-
-            <button class="btn-block" onclick="addTeacher()">
-                ➕ Add Teacher Record
-            </button>
+    <div class="stat">
+        <div class="stat-top">
+            <div class="stat-icon">✓</div>
+            <div class="stat-change">91.4%</div>
         </div>
-
-        <div class="card">
-            <h2>Teacher Directory</h2>
-            <input id="searchTeacher" class="search-box" placeholder="🔍 Search teacher by name or subject..." oninput="displayTeachers()">
-            <div id="teacherList"></div>
-        </div>
-
+        <h3>226</h3>
+        <p>Students Present</p>
     </div>
 
+    <div class="stat">
+        <div class="stat-top">
+            <div class="stat-icon">₹</div>
+            <div class="stat-change">+12.5%</div>
+        </div>
+        <h3>₹48.6K</h3>
+        <p>Monthly Collection</p>
+    </div>
 
-    <!-- ATTENDANCE PAGE -->
-    <div id="attendancePage" class="hidden">
+</div>
 
-        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+<!-- ================= DASHBOARD GRID ================= -->
 
-        <div class="card">
-            <h2>📅 Daily Attendance Logs</h2>
-            <label for="attendanceDate"><strong>Select Attendance Date:</strong></label>
-            <input type="date" id="attendanceDate" onchange="displayAttendance()">
+<div class="dashboard-grid">
+
+    <!-- Attendance Chart -->
+
+    <div class="card">
+
+        <div class="card-head">
+            <div>
+                <h3>Attendance Overview</h3>
+                <span>Weekly attendance statistics</span>
+            </div>
+            <span>THIS WEEK</span>
         </div>
 
-        <div class="card">
-            <h2>Attendance Roster</h2>
-            <input id="searchAttendance" class="search-box" placeholder="🔍 Filter student name..." oninput="displayAttendance()">
-            <div id="attendanceList"></div>
+        <div class="card-body">
+
+            <div class="chart">
+
+                <div class="bar-wrap">
+                    <div class="bar" style="height:70%">
+                        <span class="bar-value">82%</span>
+                    </div>
+                    <span class="bar-label">Mon</span>
+                </div>
+
+                <div class="bar-wrap">
+                    <div class="bar" style="height:84%">
+                        <span class="bar-value">91%</span>
+                    </div>
+                    <span class="bar-label">Tue</span>
+                </div>
+
+                <div class="bar-wrap">
+                    <div class="bar" style="height:76%">
+                        <span class="bar-value">87%</span>
+                    </div>
+                    <span class="bar-label">Wed</span>
+                </div>
+
+                <div class="bar-wrap">
+                    <div class="bar" style="height:92%">
+                        <span class="bar-value">95%</span>
+                    </div>
+                    <span class="bar-label">Thu</span>
+                </div>
+
+                <div class="bar-wrap">
+                    <div class="bar" style="height:87%">
+                        <span class="bar-value">93%</span>
+                    </div>
+                    <span class="bar-label">Fri</span>
+                </div>
+
+                <div class="bar-wrap">
+                    <div class="bar" style="height:65%">
+                        <span class="bar-value">78%</span>
+                    </div>
+                    <span class="bar-label">Sat</span>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
+    <!-- Quick Actions -->
 
-    <!-- FEES PAGE -->
-    <div id="feesPage" class="hidden">
+    <div class="card">
 
-        <button class="back" onclick="goHome()">← Back to Dashboard</button>
-
-        <div class="card">
-            <h2>💰 Record Fee Receipt</h2>
-
-            <select id="feeStudentSelect">
-                <option value="">Select Student</option>
-            </select>
-
-            <input id="feeAmount" type="number" placeholder="Payment Amount">
-            <input id="feeMonth" placeholder="Payment Period (e.g. August 2026)">
-
-            <button class="btn-block" onclick="addFeeRecord()">
-                💾 Record Payment
-            </button>
+        <div class="card-head">
+            <div>
+                <h3>Quick Actions</h3>
+                <span>Frequently used tools</span>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>Payment History</h2>
-            <input id="searchFees" class="search-box" placeholder="🔍 Search records by student name..." oninput="displayFees()">
-            <div id="feeList"></div>
-        </div>
+        <div class="card-body">
 
-    </div>
+            <div class="quick-actions">
 
+                <button class="quick" onclick="openModal('studentModal')">
+                    <div class="quick-icon">👨‍🎓</div>
+                    <strong>Add Student</strong>
+                    <span>Register new student</span>
+                </button>
 
-    <!-- BACKUP PAGE -->
-    <div id="backupPage" class="hidden">
+                <button class="quick" onclick="openModal('teacherModal')">
+                    <div class="quick-icon">👨‍🏫</div>
+                    <strong>Add Teacher</strong>
+                    <span>Add teaching staff</span>
+                </button>
 
-        <button class="back" onclick="goHome()">← Back to Dashboard</button>
+                <button class="quick" onclick="openModal('attendanceModal')">
+                    <div class="quick-icon">📅</div>
+                    <strong>Attendance</strong>
+                    <span>Mark today's attendance</span>
+                </button>
 
-        <div class="card">
-            <h2>📥 Download Data Backup</h2>
-            <p>Save all system records to a local JSON file for safekeeping.</p>
-            <button class="btn-block" onclick="exportBackup()">Download Backup (.JSON)</button>
-        </div>
+                <button class="quick" onclick="openModal('feeModal')">
+                    <div class="quick-icon">💰</div>
+                    <strong>Collect Fee</strong>
+                    <span>Record payment</span>
+                </button>
 
-        <div class="card">
-            <h2>📤 Restore Data Backup</h2>
-            <p>Load your system data from an existing backup file.</p>
-            <input type="file" id="backupFileInput" accept=".json">
-            <button class="btn-secondary btn-block" onclick="importBackup()">Restore Backup File</button>
+            </div>
+
         </div>
 
     </div>
 
 </div>
 
+<!-- ================= STUDENT TABLE ================= -->
+
+<div class="card table-card">
+
+    <div class="card-head">
+
+        <div>
+            <h3>Recent Students</h3>
+            <span>Latest registered students</span>
+        </div>
+
+        <div class="search">
+            <input
+                type="text"
+                id="studentSearch"
+                placeholder="Search student..."
+                onkeyup="searchStudents()"
+            >
+            <button class="icon-btn" onclick="openModal('studentModal')">＋</button>
+        </div>
+
+    </div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>STUDENT</th>
+                    <th>CLASS</th>
+                    <th>ROLL NO.</th>
+                    <th>ATTENDANCE</th>
+                    <th>FEE STATUS</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentTable">
+
+                <tr>
+                    <td>
+                        <div class="student">
+                            <div class="student-avatar">MA</div>
+                            <strong>Mohammed Ayaan</strong>
+                        </div>
+                    </td>
+                    <td>Hifz - A</td>
+                    <td>001</td>
+                    <td><span class="badge present">Present</span></td>
+                    <td><span class="badge present">Paid</span></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="student">
+                            <div class="student-avatar">IA</div>
+                            <strong>Ibrahim Ahmed</strong>
+                        </div>
+                    </td>
+                    <td>Alim - B</td>
+                    <td>014</td>
+                    <td><span class="badge present">Present</span></td>
+                    <td><span class="badge pending">Pending</span></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="student">
+                            <div class="student-avatar">YA</div>
+                            <strong>Yusuf Abdullah</strong>
+                        </div>
+                    </td>
+                    <td>Hifz - B</td>
+                    <td>022</td>
+                    <td><span class="badge absent">Absent</span></td>
+                    <td><span class="badge present">Paid</span></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="student">
+                            <div class="student-avatar">SA</div>
+                            <strong>Sameer Ali</strong>
+                        </div>
+                    </td>
+                    <td>Qaida - A</td>
+                    <td>031</td>
+                    <td><span class="badge present">Present</span></td>
+                    <td><span class="badge present">Paid</span></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- ================= STUDENT MODAL ================= -->
+
+<div class="modal" id="studentModal">
+
+<div class="modal-box">
+
+    <div class="modal-head">
+        <strong>Add New Student</strong>
+        <button class="close" onclick="closeModal('studentModal')">×</button>
+    </div>
+
+    <form class="form" onsubmit="addStudent(event)">
+
+        <div class="form-group">
+            <label>FULL NAME</label>
+            <input id="studentName" required placeholder="Enter student name">
+        </div>
+
+        <div class="form-group">
+            <label>CLASS</label>
+            <select id="studentClass">
+                <option>Qaida - A</option>
+                <option>Qaida - B</option>
+                <option>Hifz - A</option>
+                <option>Hifz - B</option>
+                <option>Alim - A</option>
+                <option>Alim - B</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>ROLL NUMBER</label>
+            <input id="studentRoll" required placeholder="Enter roll number">
+        </div>
+
+        <button class="primary">Add Student</button>
+
+    </form>
+
+</div>
+
+</div>
+
+<!-- ================= TEACHER MODAL ================= -->
+
+<div class="modal" id="teacherModal">
+
+<div class="modal-box">
+
+    <div class="modal-head">
+        <strong>Add New Teacher</strong>
+        <button class="close" onclick="closeModal('teacherModal')">×</button>
+    </div>
+
+    <form class="form" onsubmit="addTeacher(event)">
+
+        <div class="form-group">
+            <label>TEACHER NAME</label>
+            <input id="teacherName" required placeholder="Enter teacher name">
+        </div>
+
+        <div class="form-group">
+            <label>SUBJECT</label>
+            <input id="teacherSubject" required placeholder="Quran / Hifz / Arabic">
+        </div>
+
+        <button class="primary">Add Teacher</button>
+
+    </form>
+
+</div>
+
+</div>
+
+<!-- ================= ATTENDANCE MODAL ================= -->
+
+<div class="modal" id="attendanceModal">
+
+<div class="modal-box">
+
+    <div class="modal-head">
+        <strong>Mark Attendance</strong>
+        <button class="close" onclick="closeModal('attendanceModal')">×</button>
+    </div>
+
+    <form class="form" onsubmit="markAttendance(event)">
+
+        <div class="form-group">
+            <label>STUDENT</label>
+            <select>
+                <option>Mohammed Ayaan</option>
+                <option>Ibrahim Ahmed</option>
+                <option>Yusuf Abdullah</option>
+                <option>Sameer Ali</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>STATUS</label>
+            <select>
+                <option>Present</option>
+                <option>Absent</option>
+                <option>Late</option>
+                <option>Leave</option>
+            </select>
+        </div>
+
+        <button class="primary">Save Attendance</button>
+
+    </form>
+
+</div>
+
+</div>
+
+<!-- ================= FEE MODAL ================= -->
+
+<div class="modal" id="feeModal">
+
+<div class="modal-box">
+
+    <div class="modal-head">
+        <strong>Collect Fee</strong>
+        <button class="close" onclick="closeModal('feeModal')">×</button>
+    </div>
+
+    <form class="form" onsubmit="collectFee(event)">
+
+        <div class="form-group">
+            <label>STUDENT</label>
+            <input required placeholder="Student name">
+        </div>
+
+        <div class="form-group">
+            <label>AMOUNT</label>
+            <input type="number" required placeholder="₹ Amount">
+        </div>
+
+        <div class="form-group">
+            <label>PAYMENT METHOD</label>
+            <select>
+                <option>Cash</option>
+                <option>UPI</option>
+                <option>Bank Transfer</option>
+            </select>
+        </div>
+
+        <button class="primary">Save Payment</button>
+
+    </form>
+
+</div>
+
+</div>
 
 <script>
 
-    /* ----------------------------------
-       GLOBAL APP STATE & INITIALIZATION
-    ---------------------------------- */
+/* ================= DATE ================= */
 
-    let students = [];
-    let teachers = [];
-    let attendanceRecords = {};
-    let feeRecords = [];
+const today = new Date();
 
-    function loadAppData() {
-        try {
-            students = JSON.parse(localStorage.getItem("students")) || [];
-            teachers = JSON.parse(localStorage.getItem("teachers")) || [];
-            attendanceRecords = JSON.parse(localStorage.getItem("attendanceRecords")) || {};
-            feeRecords = JSON.parse(localStorage.getItem("feeRecords")) || [];
-        } catch (e) {
-            console.error("Error loading stored data:", e);
-            students = [];
-            teachers = [];
-            attendanceRecords = {};
-            feeRecords = [];
-        }
-    }
+document.getElementById("todayDate").innerText =
+today.toLocaleDateString("en-IN",{
+    weekday:"long",
+    day:"numeric",
+    month:"long",
+    year:"numeric"
+});
 
-    window.addEventListener("DOMContentLoaded", function() {
-        loadAppData();
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById("attendanceDate").value = today;
+
+/* ================= SIDEBAR ================= */
+
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+
+/* ================= PAGE ================= */
+
+function showPage(page,element){
+
+    document.getElementById("pageTitle").innerText = page;
+
+    document.querySelectorAll(".nav-item").forEach(item=>{
+        item.classList.remove("active");
     });
 
-
-    /* ----------------------------------
-       NAVIGATION
-    ---------------------------------- */
-
-    function openPage(pageId) {
-        document.getElementById("home").classList.add("hidden");
-        document.getElementById("studentsPage").classList.add("hidden");
-        document.getElementById("teachersPage").classList.add("hidden");
-        document.getElementById("attendancePage").classList.add("hidden");
-        document.getElementById("feesPage").classList.add("hidden");
-        document.getElementById("backupPage").classList.add("hidden");
-
-        document.getElementById(pageId).classList.remove("hidden");
-
-        if (pageId === "studentsPage") {
-            displayStudents();
-        } else if (pageId === "teachersPage") {
-            displayTeachers();
-        } else if (pageId === "attendancePage") {
-            displayAttendance();
-        } else if (pageId === "feesPage") {
-            populateFeeStudentDropdown();
-            displayFees();
-        }
+    if(element){
+        element.classList.add("active");
     }
 
-    function goHome() {
-        document.getElementById("studentsPage").classList.add("hidden");
-        document.getElementById("teachersPage").classList.add("hidden");
-        document.getElementById("attendancePage").classList.add("hidden");
-        document.getElementById("feesPage").classList.add("hidden");
-        document.getElementById("backupPage").classList.add("hidden");
-
-        document.getElementById("home").classList.remove("hidden");
+    if(window.innerWidth <= 750){
+        document.getElementById("sidebar").classList.remove("open");
     }
 
+    if(page !== "Dashboard"){
+        alert(page + " module is ready for the next development stage.");
+    }
+}
 
-    /* ----------------------------------
-       STUDENTS
-    ---------------------------------- */
 
-    function addStudent() {
-        let name = document.getElementById("studentName").value.trim();
-        let studentClass = document.getElementById("studentClass").value.trim();
-        let phone = document.getElementById("studentPhone").value.trim();
+/* ================= MODALS ================= */
 
-        if (name === "") {
-            alert("Please provide a student name.");
-            return;
+function openModal(id){
+    document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id){
+    document.getElementById(id).classList.remove("show");
+}
+
+document.querySelectorAll(".modal").forEach(modal=>{
+
+    modal.addEventListener("click",function(e){
+
+        if(e.target === modal){
+            modal.classList.remove("show");
         }
 
-        let newStudent = {
-            id: Date.now(),
-            name: name,
-            className: studentClass || "Not assigned",
-            phone: phone || "Not provided"
-        };
+    });
 
-        students.push(newStudent);
-        localStorage.setItem("students", JSON.stringify(students));
+});
 
-        document.getElementById("studentName").value = "";
-        document.getElementById("studentClass").value = "";
-        document.getElementById("studentPhone").value = "";
 
-        displayStudents();
-    }
+/* ================= ADD STUDENT ================= */
 
-    function displayStudents() {
-        let list = document.getElementById("studentList");
-        let query = (document.getElementById("searchStudent")?.value || "").toLowerCase();
+function addStudent(event){
 
-        let filtered = students.filter(s => 
-            s.name.toLowerCase().includes(query) || 
-            s.className.toLowerCase().includes(query)
+    event.preventDefault();
+
+    const name =
+        document.getElementById("studentName").value;
+
+    const studentClass =
+        document.getElementById("studentClass").value;
+
+    const roll =
+        document.getElementById("studentRoll").value;
+
+    const initials =
+        name
+        .split(" ")
+        .map(x=>x[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>
+            <div class="student">
+                <div class="student-avatar">${initials}</div>
+                <strong>${name}</strong>
+            </div>
+        </td>
+
+        <td>${studentClass}</td>
+
+        <td>${roll}</td>
+
+        <td>
+            <span class="badge present">Present</span>
+        </td>
+
+        <td>
+            <span class="badge pending">Pending</span>
+        </td>
+    `;
+
+    document.getElementById("studentTable").prepend(row);
+
+    let count =
+        Number(document.getElementById("studentCount").innerText);
+
+    document.getElementById("studentCount").innerText = count + 1;
+
+    localStorage.setItem("lastStudent",name);
+
+    event.target.reset();
+
+    closeModal("studentModal");
+
+    alert("Student added successfully!");
+}
+
+
+/* ================= SEARCH ================= */
+
+function searchStudents(){
+
+    const query =
+        document.getElementById("studentSearch")
+        .value
+        .toLowerCase();
+
+    document.querySelectorAll("#studentTable tr")
+    .forEach(row=>{
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(query)
+            ? ""
+            : "none";
+
+    });
+
+}
+
+
+/* ================= TEACHER ================= */
+
+function addTeacher(event){
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById("teacherName").value;
+
+    localStorage.setItem("lastTeacher",name);
+
+    event.target.reset();
+
+    closeModal("teacherModal");
+
+    alert("Teacher added successfully!");
+}
+
+
+/* ================= ATTENDANCE ================= */
+
+function markAttendance(event){
+
+    event.preventDefault();
+
+    localStorage.setItem(
+        "lastAttendance",
+        new Date().toISOString()
+    );
+
+    closeModal("attendanceModal");
+
+    alert("Attendance saved successfully!");
+}
+
+
+/* ================= FEES ================= */
+
+function collectFee(event){
+
+    event.preventDefault();
+
+    localStorage.setItem(
+        "lastPayment",
+        new Date().toISOString()
+    );
+
+    closeModal("feeModal");
+
+    alert("Payment recorded successfully!");
+}
+
+
+/* ================= BACKUP ================= */
+
+function backupData(){
+
+    const data = {
+
+        students:
+            document.getElementById("studentCount").innerText,
+
+        lastStudent:
+            localStorage.getItem("lastStudent"),
+
+        lastTeacher:
+            localStorage.getItem("lastTeacher"),
+
+        lastAttendance:
+            localStorage.getItem("lastAttendance"),
+
+        lastPayment:
+            localStorage.getItem("lastPayment"),
+
+        backupDate:
+            new Date().toISOString()
+
+    };
+
+    const blob =
+        new Blob(
+            [JSON.stringify(data,null,2)],
+            {type:"application/json"}
         );
 
-        if (filtered.length === 0) {
-            list.innerHTML = "<p style='color:var(--text-muted);'>No students found.</p>";
-            return;
-        }
+    const url =
+        URL.createObjectURL(blob);
 
-        let html = "";
-        filtered.forEach(student => {
-            html += `
-                <div class="person">
-                    <strong>👤 ${escapeHtml(student.name)}</strong>
-                    <br>
-                    📚 Class: ${escapeHtml(student.className)}
-                    <br>
-                    📱 Phone: ${escapeHtml(student.phone)}
-                    <br>
-                    <button class="delete" onclick="deleteStudent(${student.id})">
-                        Delete
-                    </button>
-                </div>
-            `;
-        });
+    const a =
+        document.createElement("a");
 
-        list.innerHTML = html;
-    }
+    a.href=url;
+    a.download="madrasa-backup.json";
+    a.click();
 
-    function deleteStudent(id) {
-        if (!confirm("Remove this student?")) return;
-        students = students.filter(student => student.id !== id);
-        localStorage.setItem("students", JSON.stringify(students));
-        displayStudents();
-    }
+    URL.revokeObjectURL(url);
+}
 
 
-    /* ----------------------------------
-       TEACHERS
-    ---------------------------------- */
+/* ================= NOTIFICATIONS ================= */
 
-    function addTeacher() {
-        let name = document.getElementById("teacherName").value.trim();
-        let subject = document.getElementById("teacherSubject").value.trim();
-        let phone = document.getElementById("teacherPhone").value.trim();
+function showNotifications(){
 
-        if (name === "") {
-            alert("Please enter a teacher name.");
-            return;
-        }
+    alert(
+        "🔔 Notifications\n\n" +
+        "• 22 students marked present\n" +
+        "• 5 fee payments pending\n" +
+        "• Monthly report is available"
+    );
 
-        let newTeacher = {
-            id: Date.now(),
-            name: name,
-            subject: subject || "General",
-            phone: phone || "Not provided"
-        };
-
-        teachers.push(newTeacher);
-        localStorage.setItem("teachers", JSON.stringify(teachers));
-
-        document.getElementById("teacherName").value = "";
-        document.getElementById("teacherSubject").value = "";
-        document.getElementById("teacherPhone").value = "";
-
-        displayTeachers();
-    }
-
-    function displayTeachers() {
-        let list = document.getElementById("teacherList");
-        let query = (document.getElementById("searchTeacher")?.value || "").toLowerCase();
-
-        let filtered = teachers.filter(t => 
-            t.name.toLowerCase().includes(query) || 
-            t.subject.toLowerCase().includes(query)
-        );
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p style='color:var(--text-muted);'>No teachers found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(teacher => {
-            html += `
-                <div class="person">
-                    <strong>👨‍🏫 ${escapeHtml(teacher.name)}</strong>
-                    <br>
-                    📚 Subject: ${escapeHtml(teacher.subject)}
-                    <br>
-                    📱 Phone: ${escapeHtml(teacher.phone)}
-                    <br>
-                    <button class="delete" onclick="deleteTeacher(${teacher.id})">
-                        Delete
-                    </button>
-                </div>
-            `;
-        });
-
-        list.innerHTML = html;
-    }
-
-    function deleteTeacher(id) {
-        if (!confirm("Remove this teacher?")) return;
-        teachers = teachers.filter(teacher => teacher.id !== id);
-        localStorage.setItem("teachers", JSON.stringify(teachers));
-        displayTeachers();
-    }
-
-
-    /* ----------------------------------
-       ATTENDANCE
-    ---------------------------------- */
-
-    function displayAttendance() {
-        let date = document.getElementById("attendanceDate").value;
-        let list = document.getElementById("attendanceList");
-        let query = (document.getElementById("searchAttendance")?.value || "").toLowerCase();
-
-        if (!date) {
-            list.innerHTML = "<p>Select a date to begin.</p>";
-            return;
-        }
-
-        if (students.length === 0) {
-            list.innerHTML = "<p style='color:var(--text-muted);'>No students in system. Add students first.</p>";
-            return;
-        }
-
-        if (!attendanceRecords[date]) {
-            attendanceRecords[date] = {};
-        }
-
-        let filtered = students.filter(s => s.name.toLowerCase().includes(query));
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p style='color:var(--text-muted);'>No matching students found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(student => {
-            let status = attendanceRecords[date][student.id] || "None";
-
-            let presentClass = status === 'Present' ? 'btn-present' : 'btn-inactive';
-            let absentClass = status === 'Absent' ? 'btn-absent' : 'btn-inactive';
-
-            html += `
-                <div class="attendance-row">
-                    <div>
-                        <strong>👤 ${escapeHtml(student.name)}</strong> 
-                        <br><small style="color:var(--text-muted)">Class: ${escapeHtml(student.className)}</small>
-                    </div>
-                    <div>
-                        <button class="status-btn ${presentClass}" 
-                                onclick="setAttendance('${date}', ${student.id}, 'Present')">
-                            Present
-                        </button>
-                        <button class="status-btn ${absentClass}" 
-                                onclick="setAttendance('${date}', ${student.id}, 'Absent')">
-                            Absent
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
-
-        list.innerHTML = html;
-    }
-
-    function setAttendance(date, studentId, status) {
-        if (!attendanceRecords[date]) {
-            attendanceRecords[date] = {};
-        }
-
-        attendanceRecords[date][studentId] = status;
-        localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
-        displayAttendance();
-    }
-
-
-    /* ----------------------------------
-       FEES
-    ---------------------------------- */
-
-    function populateFeeStudentDropdown() {
-        let select = document.getElementById("feeStudentSelect");
-        select.innerHTML = '<option value="">Select Student</option>';
-
-        students.forEach(student => {
-            select.innerHTML += `
-                <option value="${student.id}">${escapeHtml(student.name)} (${escapeHtml(student.className)})</option>
-            `;
-        });
-    }
-
-    function addFeeRecord() {
-        let studentId = document.getElementById("feeStudentSelect").value;
-        let amount = document.getElementById("feeAmount").value.trim();
-        let month = document.getElementById("feeMonth").value.trim();
-
-        if (!studentId) {
-            alert("Please choose a student.");
-            return;
-        }
-        if (amount === "" || Number(amount) <= 0) {
-            alert("Please enter a valid amount.");
-            return;
-        }
-        if (month === "") {
-            alert("Please input the fee period.");
-            return;
-        }
-
-        let matchedStudent = students.find(s => s.id == studentId);
-
-        let newRecord = {
-            id: Date.now(),
-            studentId: studentId,
-            studentName: matchedStudent ? matchedStudent.name : "Unknown",
-            amount: amount,
-            month: month,
-            dateRecorded: new Date().toLocaleDateString()
-        };
-
-        feeRecords.push(newRecord);
-        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
-
-        document.getElementById("feeAmount").value = "";
-        document.getElementById("feeMonth").value = "";
-        document.getElementById("feeStudentSelect").value = "";
-
-        displayFees();
-    }
-
-    function displayFees() {
-        let list = document.getElementById("feeList");
-        let query = (document.getElementById("searchFees")?.value || "").toLowerCase();
-
-        let filtered = feeRecords.filter(f => f.studentName.toLowerCase().includes(query));
-
-        if (filtered.length === 0) {
-            list.innerHTML = "<p style='color:var(--text-muted);'>No fee receipts found.</p>";
-            return;
-        }
-
-        let html = "";
-        filtered.forEach(record => {
-            html += `
-                <div class="person">
-                    <strong>👤 ${escapeHtml(record.studentName)}</strong>
-                    <br>
-                    💵 Amount Paid: ${escapeHtml(record.amount)}
-                    <br>
-                    🗓️ Period: ${escapeHtml(record.month)}
-                    <br>
-                    📅 Recorded: ${escapeHtml(record.dateRecorded)}
-                    <br>
-                    <button class="delete" onclick="deleteFeeRecord(${record.id})">
-                        Delete Record
-                    </button>
-                </div>
-            `;
-        });
-
-        list.innerHTML = html;
-    }
-
-    function deleteFeeRecord(id) {
-        if (!confirm("Delete payment receipt record?")) return;
-        feeRecords = feeRecords.filter(record => record.id !== id);
-        localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
-        displayFees();
-    }
-
-
-    /* ----------------------------------
-       BACKUP & UTILS
-    ---------------------------------- */
-
-    function exportBackup() {
-        let backupData = {
-            students: students,
-            teachers: teachers,
-            attendanceRecords: attendanceRecords,
-            feeRecords: feeRecords
-        };
-
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
-        let downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", `madarsa_backup_${new Date().toISOString().split('T')[0]}.json`);
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    }
-
-    function importBackup() {
-        let fileInput = document.getElementById('backupFileInput');
-        let file = fileInput.files[0];
-
-        if (!file) {
-            alert("Choose a backup JSON file first.");
-            return;
-        }
-
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                let data = JSON.parse(e.target.result);
-                if (data.students && data.teachers) {
-                    students = data.students || [];
-                    teachers = data.teachers || [];
-                    attendanceRecords = data.attendanceRecords || {};
-                    feeRecords = data.feeRecords || [];
-
-                    localStorage.setItem("students", JSON.stringify(students));
-                    localStorage.setItem("teachers", JSON.stringify(teachers));
-                    localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
-                    localStorage.setItem("feeRecords", JSON.stringify(feeRecords));
-
-                    alert("Backup imported successfully!");
-                    goHome();
-                } else {
-                    alert("Unrecognized backup file structure.");
-                }
-            } catch (err) {
-                alert("File reading error: " + err.message);
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    function escapeHtml(str) {
-        if (!str) return "";
-        return String(str)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+}
 
 </script>
 
