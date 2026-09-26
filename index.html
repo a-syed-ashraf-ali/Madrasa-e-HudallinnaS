@@ -59,7 +59,7 @@
           </div>
           <div>
             <h1 class="text-base font-bold leading-tight text-white">Ilm in</h1>
-            <p class="text-[10px] uppercase font-semibold text-brand-500 tracking-wider">Management</p>
+            <p class="text-[10px] uppercase font-semibold text-brand-500 tracking-wider">Management System</p>
           </div>
         </div>
         <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white">
@@ -69,22 +69,22 @@
 
       <!-- NAV LINKS -->
       <nav class="space-y-1.5">
-        <button onclick="switchTab('home')" id="nav-home" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-500/10 border border-brand-500/20 transition-all">
+        <a href="#dashboard" onclick="toggleSidebar()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-500/10 border border-brand-500/20 transition-all">
           <i class="ri-dashboard-3-line text-lg"></i>
           <span>Dashboard</span>
-        </button>
-        <button onclick="switchTab('students')" id="nav-students" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+        </a>
+        <a href="#students-section" onclick="toggleSidebar()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
           <i class="ri-user-group-line text-lg"></i>
           <span>Students</span>
-        </button>
-        <button onclick="switchTab('teachers')" id="nav-teachers" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+        </a>
+        <a href="#teachers-section" onclick="toggleSidebar()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
           <i class="ri-user-star-line text-lg"></i>
           <span>Teachers & Staff</span>
-        </button>
-        <button onclick="switchTab('fees')" id="nav-fees" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+        </a>
+        <a href="#fees-section" onclick="toggleSidebar()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
           <i class="ri-wallet-3-line text-lg"></i>
           <span>Fees & Payments</span>
-        </button>
+        </a>
       </nav>
     </div>
 
@@ -106,34 +106,34 @@
     <!-- TOP HEADER BAR -->
     <header class="sticky top-0 z-30 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 px-4 py-3 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <!-- SIDEBAR TOGGER (MOBILE) -->
         <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 active:scale-95 transition-transform">
           <i class="ri-menu-2-line text-lg"></i>
         </button>
         <div>
-          <h2 id="header-title" class="text-base font-bold text-white">Dashboard</h2>
+          <h2 class="text-base font-bold text-white">Ilm in Management Portal</h2>
           <p class="text-[10px] text-slate-400">Madrasa-e-HudallinnaS</p>
         </div>
       </div>
       
-      <div class="flex items-center gap-2" id="header-actions">
-        <!-- Dynamic header actions will render here -->
+      <div class="flex items-center gap-2">
+        <button onclick="openStudentModal()" class="flex items-center gap-1.5 bg-brand-600 text-white px-3 py-2 rounded-xl text-xs font-semibold shadow-lg shadow-brand-600/30 hover:bg-brand-500 transition-colors">
+          <i class="ri-add-line"></i> <span class="hidden sm:inline">Add Student</span>
+        </button>
       </div>
     </header>
 
     <!-- CONTENT BODY -->
     <main class="max-w-5xl w-full mx-auto p-4 space-y-6">
 
-      <!-- PAGE 1: HOME PAGE / DASHBOARD -->
-      <section id="page-home" class="space-y-5">
-        <!-- WELCOME BANNER -->
+      <!-- SECTION 1: HOME WELCOME & DASHBOARD STATS -->
+      <section id="dashboard" class="space-y-5">
         <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-900 via-slate-900 to-slate-900 p-5 border border-brand-500/20 shadow-xl">
           <div class="relative z-10">
             <span class="text-[10px] font-bold uppercase tracking-widest text-brand-400 bg-brand-500/10 px-2.5 py-1 rounded-full border border-brand-500/20">
-              Assalamu Alaikum
+              Assalamu Alaikum Wa Rahmatullah
             </span>
-            <h2 class="text-lg font-bold text-white mt-2">Madrasa Management System</h2>
-            <p class="text-xs text-slate-400 mt-1 max-w-sm">Welcome back! Manage academic activities, staff, and students from one place.</p>
+            <h2 class="text-lg font-bold text-white mt-2">Welcome to Ilm in</h2>
+            <p class="text-xs text-slate-400 mt-1 max-w-sm">Manage students, teachers, fees, and academic information from one central portal.</p>
           </div>
           <i class="ri-building-2-line absolute -right-3 -bottom-4 text-8xl text-brand-500/10 pointer-events-none"></i>
         </div>
@@ -142,24 +142,17 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div class="glass-card rounded-2xl p-4 border border-slate-800">
             <div class="flex justify-between items-center text-slate-400 mb-2">
-              <span class="text-xs font-medium">Students</span>
+              <span class="text-xs font-medium">Total Students</span>
               <i class="ri-user-group-line text-brand-500"></i>
             </div>
-            <h3 id="home-stat-students" class="text-2xl font-extrabold text-white">0</h3>
+            <h3 id="stat-students-count" class="text-2xl font-extrabold text-white">0</h3>
           </div>
           <div class="glass-card rounded-2xl p-4 border border-slate-800">
             <div class="flex justify-between items-center text-slate-400 mb-2">
-              <span class="text-xs font-medium">Teachers</span>
+              <span class="text-xs font-medium">Teachers & Staff</span>
               <i class="ri-user-star-line text-emerald-400"></i>
             </div>
-            <h3 id="home-stat-teachers" class="text-2xl font-extrabold text-white">0</h3>
-          </div>
-          <div class="glass-card rounded-2xl p-4 border border-slate-800">
-            <div class="flex justify-between items-center text-slate-400 mb-2">
-              <span class="text-xs font-medium">Active Classes</span>
-              <i class="ri-book-read-line text-sky-400"></i>
-            </div>
-            <h3 class="text-2xl font-extrabold text-white">4</h3>
+            <h3 id="stat-teachers-count" class="text-2xl font-extrabold text-white">0</h3>
           </div>
           <div class="glass-card rounded-2xl p-4 border border-slate-800">
             <div class="flex justify-between items-center text-slate-400 mb-2">
@@ -168,48 +161,35 @@
             </div>
             <h3 class="text-2xl font-extrabold text-white">₹0</h3>
           </div>
-        </div>
-
-        <!-- DASHBOARD SHORTCUTS & SCHEDULER -->
-        <div class="grid md:grid-cols-3 gap-4">
-          <!-- QUICK SHORTCUTS -->
-          <div class="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Quick Actions</h3>
-            <div class="grid grid-cols-2 gap-2">
-              <button onclick="switchTab('students'); openStudentModal();" class="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left transition-colors">
-                <i class="ri-user-add-line text-brand-400 text-lg block mb-1"></i>
-                <span class="text-xs font-semibold text-white block">Add Student</span>
-              </button>
-              <button onclick="switchTab('teachers'); openTeacherModal();" class="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left transition-colors">
-                <i class="ri-user-follow-line text-emerald-400 text-lg block mb-1"></i>
-                <span class="text-xs font-semibold text-white block">Add Teacher</span>
-              </button>
+          <div class="glass-card rounded-2xl p-4 border border-slate-800">
+            <div class="flex justify-between items-center text-slate-400 mb-2">
+              <span class="text-xs font-medium">Active Classes</span>
+              <i class="ri-book-read-line text-sky-400"></i>
             </div>
-          </div>
-
-          <!-- RECENT NOTICES -->
-          <div class="md:col-span-2 glass-card rounded-2xl p-4 border border-slate-800">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Notice Board</h3>
-            <div class="space-y-2 text-xs">
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex justify-between items-start">
-                <div>
-                  <h4 class="font-bold text-slate-200">Term 1 Assessment Exam Schedule</h4>
-                  <p class="text-slate-400 mt-0.5">Examinations start from the first week of next month.</p>
-                </div>
-                <span class="text-[10px] text-slate-500 font-semibold">Today</span>
-              </div>
-            </div>
+            <h3 class="text-2xl font-extrabold text-white">4</h3>
           </div>
         </div>
       </section>
 
-      <!-- PAGE 2: STUDENTS MANAGEMENT -->
-      <section id="page-students" class="hidden space-y-4">
+      <!-- SECTION 2: STUDENTS MANAGEMENT (ROSTER & ACTIONS) -->
+      <section id="students-section" class="glass-card rounded-2xl p-5 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="ri-user-group-line text-brand-400"></i> Student Roster & Management
+            </h3>
+            <p class="text-xs text-slate-400">Add, edit, filter, and delete student records.</p>
+          </div>
+          <button onclick="openStudentModal()" class="self-start sm:self-auto bg-brand-600 hover:bg-brand-500 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-brand-600/30 transition-all">
+            <i class="ri-add-line text-base"></i> Add New Student
+          </button>
+        </div>
+
         <!-- SEARCH AND FILTER TOOLBAR -->
-        <div class="flex gap-2">
+        <div class="flex flex-col sm:flex-row gap-2">
           <div class="relative flex-1">
             <i class="ri-search-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input type="text" id="search-student-input" oninput="filterStudents()" placeholder="Search student name, roll no, guardian..." 
+            <input type="text" id="search-student-input" oninput="filterStudents()" placeholder="Search name, roll no, parent..." 
               class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500">
           </div>
           <select id="filter-student-class" onchange="filterStudents()" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-brand-500">
@@ -221,36 +201,43 @@
           </select>
         </div>
 
-        <!-- STUDENT LIST -->
+        <!-- STUDENT LIST CARDS -->
         <div id="student-list" class="space-y-3">
           <!-- Rendered dynamically -->
         </div>
       </section>
 
-      <!-- PAGE 3: TEACHERS MANAGEMENT -->
-      <section id="page-teachers" class="hidden space-y-4">
-        <!-- SEARCH TOOLBAR -->
-        <div class="flex gap-2">
-          <div class="relative flex-1">
-            <i class="ri-search-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input type="text" id="search-teacher-input" oninput="filterTeachers()" placeholder="Search teacher name, subject, ID..." 
-              class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500">
+      <!-- SECTION 3: TEACHERS & STAFF MANAGEMENT -->
+      <section id="teachers-section" class="glass-card rounded-2xl p-5 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="ri-user-star-line text-emerald-400"></i> Teachers & Staff Directory
+            </h3>
+            <p class="text-xs text-slate-400">Faculty directory and subject assignments.</p>
           </div>
+          <button onclick="openTeacherModal()" class="self-start sm:self-auto bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-emerald-600/30 transition-all">
+            <i class="ri-add-line text-base"></i> Add New Teacher
+          </button>
         </div>
 
-        <!-- TEACHER LIST -->
+        <div class="relative">
+          <i class="ri-search-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input type="text" id="search-teacher-input" oninput="filterTeachers()" placeholder="Search teacher name, subject, ID..." 
+            class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500">
+        </div>
+
         <div id="teacher-list" class="space-y-3">
           <!-- Rendered dynamically -->
         </div>
       </section>
 
-      <!-- PAGE 4: FEES MANAGEMENT -->
-      <section id="page-fees" class="hidden">
-        <div class="glass-card rounded-2xl p-8 text-center text-slate-400 border border-slate-800">
-          <i class="ri-wallet-3-line text-4xl block mb-2 text-slate-500"></i>
-          <h3 class="text-sm font-bold text-white">Fee Management Logs</h3>
-          <p class="text-xs text-slate-500 mt-1">Receipt generation and payment logs will appear here.</p>
-        </div>
+      <!-- SECTION 4: FEES & PAYMENTS -->
+      <section id="fees-section" class="glass-card rounded-2xl p-5 border border-slate-800 space-y-2">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="ri-wallet-3-line text-amber-400"></i> Fees & Payments
+        </h3>
+        <p class="text-xs text-slate-400">Fee logs, transaction history, and receipts will appear here.</p>
       </section>
 
     </main>
@@ -259,22 +246,22 @@
   <!-- BOTTOM NAVIGATION FOR MOBILE -->
   <nav class="fixed bottom-0 left-0 right-0 z-30 bg-slate-950/90 backdrop-blur-lg border-t border-slate-800 px-6 py-2 md:hidden">
     <div class="flex justify-around items-center">
-      <button onclick="switchTab('home')" id="mobile-home" class="flex flex-col items-center gap-1 text-brand-400 text-xs font-semibold">
+      <a href="#dashboard" class="flex flex-col items-center gap-1 text-brand-400 text-xs font-semibold">
         <i class="ri-dashboard-3-line text-lg"></i>
         <span>Home</span>
-      </button>
-      <button onclick="switchTab('students')" id="mobile-students" class="flex flex-col items-center gap-1 text-slate-400 text-xs font-semibold">
+      </a>
+      <a href="#students-section" class="flex flex-col items-center gap-1 text-slate-400 text-xs font-semibold hover:text-white">
         <i class="ri-user-group-line text-lg"></i>
         <span>Students</span>
+      </a>
+      <button onclick="openStudentModal()" class="flex flex-col items-center gap-1 text-slate-400 text-xs font-semibold hover:text-white">
+        <i class="ri-add-circle-line text-lg text-brand-500"></i>
+        <span class="text-brand-500">Add</span>
       </button>
-      <button onclick="switchTab('teachers')" id="mobile-teachers" class="flex flex-col items-center gap-1 text-slate-400 text-xs font-semibold">
+      <a href="#teachers-section" class="flex flex-col items-center gap-1 text-slate-400 text-xs font-semibold hover:text-white">
         <i class="ri-user-star-line text-lg"></i>
         <span>Teachers</span>
-      </button>
-      <button onclick="switchTab('fees')" id="mobile-fees" class="flex flex-col items-center gap-1 text-slate-400 text-xs font-semibold">
-        <i class="ri-wallet-3-line text-lg"></i>
-        <span>Fees</span>
-      </button>
+      </a>
     </div>
   </nav>
 
@@ -368,4 +355,277 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs text-slate-400 mb-1">Assigned Class</label>
-            <select id="t-class" class="w-full bg-slate-800 border border-slate-700 rounded
+            <select id="t-class" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="Class 1">Class 1</option>
+              <option value="Class 2">Class 2</option>
+              <option value="Class 3">Class 3</option>
+              <option value="Hifz">Hifz</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Phone Number</label>
+            <input type="tel" id="t-phone" placeholder="Phone Number" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button type="button" onclick="closeTeacherModal()" class="w-1/2 bg-slate-800 text-slate-300 py-2.5 rounded-xl text-xs font-semibold">Cancel</button>
+          <button type="submit" class="w-1/2 bg-emerald-600 text-white py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-emerald-600/30">Save Teacher</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC -->
+  <script>
+    // INITIAL MOCK DATA
+    const initialStudents = [
+      { id: 101, roll: "STU-001", name: "Yusuf Abdullah", className: "Class 1", gender: "Male", guardian: "Abdullah Ali", phone: "+91 98765 43210", status: "Active" },
+      { id: 102, roll: "STU-002", name: "Aisha Fatima", className: "Hifz", gender: "Female", guardian: "Umar Farooq", phone: "+91 91234 56789", status: "Active" }
+    ];
+
+    const initialTeachers = [
+      { id: 201, teacherId: "TCH-01", name: "Qari Ibrahim Hassan", subject: "Quran & Hifz", className: "Hifz", phone: "+91 98111 22334" },
+      { id: 202, teacherId: "TCH-02", name: "Ustadh Bilal Ahmed", subject: "Arabic & Deeniyat", className: "Class 1", phone: "+91 97444 55667" }
+    ];
+
+    let students = JSON.parse(localStorage.getItem('ilm_students')) || initialStudents;
+    let teachers = JSON.parse(localStorage.getItem('ilm_teachers')) || initialTeachers;
+
+    function saveData() {
+      localStorage.setItem('ilm_students', JSON.stringify(students));
+      localStorage.setItem('ilm_teachers', JSON.stringify(teachers));
+    }
+
+    // SIDEBAR TOGGLE
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('drawer-overlay');
+      const isHidden = sidebar.classList.contains('-translate-x-full');
+
+      if (isHidden) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    // RENDER STUDENTS
+    function renderStudents(data = students) {
+      const container = document.getElementById('student-list');
+      container.innerHTML = '';
+
+      if (data.length === 0) {
+        container.innerHTML = `<div class="bg-slate-900/60 rounded-2xl p-6 text-center text-slate-500 text-xs border border-slate-800">No student records found.</div>`;
+        return;
+      }
+
+      data.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900/80 rounded-2xl p-4 space-y-3 border border-slate-800';
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="text-sm font-bold text-white leading-tight">${s.name}</h4>
+              <div class="flex items-center gap-2 mt-0.5 text-[11px] text-slate-400">
+                <span>${s.roll}</span> • <span class="text-brand-400 font-semibold">${s.className}</span>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border ${s.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}">${s.status}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-400 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/50">
+            <div>Guardian: <span class="text-slate-200 font-medium">${s.guardian || '-'}</span></div>
+            <div>Phone: <span class="text-slate-200 font-medium">${s.phone || '-'}</span></div>
+          </div>
+          <div class="flex justify-end gap-2 pt-1 border-t border-slate-800/60">
+            <button onclick="editStudent(${s.id})" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-700"><i class="ri-edit-line"></i> Edit</button>
+            <button onclick="deleteStudent(${s.id})" class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-lg text-xs font-semibold hover:bg-rose-500/20"><i class="ri-delete-bin-line"></i> Delete</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // RENDER TEACHERS
+    function renderTeachers(data = teachers) {
+      const container = document.getElementById('teacher-list');
+      container.innerHTML = '';
+
+      if (data.length === 0) {
+        container.innerHTML = `<div class="bg-slate-900/60 rounded-2xl p-6 text-center text-slate-500 text-xs border border-slate-800">No teacher profiles found.</div>`;
+        return;
+      }
+
+      data.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900/80 rounded-2xl p-4 space-y-3 border border-slate-800';
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold text-sm">
+                <i class="ri-user-star-line"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white leading-tight">${t.name}</h4>
+                <p class="text-[11px] text-slate-400 mt-0.5">${t.teacherId} • <span class="text-emerald-400 font-medium">${t.subject}</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-400 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/50">
+            <div>Assigned: <span class="text-slate-200 font-medium">${t.className || '-'}</span></div>
+            <div>Phone: <span class="text-slate-200 font-medium">${t.phone || '-'}</span></div>
+          </div>
+          <div class="flex justify-end gap-2 pt-1 border-t border-slate-800/60">
+            <button onclick="editTeacher(${t.id})" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-700"><i class="ri-edit-line"></i> Edit</button>
+            <button onclick="deleteTeacher(${t.id})" class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-lg text-xs font-semibold hover:bg-rose-500/20"><i class="ri-delete-bin-line"></i> Delete</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function updateMetrics() {
+      document.getElementById('stat-students-count').textContent = students.length;
+      document.getElementById('stat-teachers-count').textContent = teachers.length;
+    }
+
+    // STUDENT MODAL & CRUD
+    function openStudentModal() {
+      document.getElementById('student-modal-title').textContent = 'Add New Student';
+      document.getElementById('student-edit-id').value = '';
+      const modal = document.getElementById('student-modal');
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+    function closeStudentModal() {
+      const modal = document.getElementById('student-modal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+    }
+    function handleStudentSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('student-edit-id').value;
+      const rec = {
+        id: id ? parseInt(id) : Date.now(),
+        roll: document.getElementById('s-roll').value,
+        className: document.getElementById('s-class').value,
+        name: document.getElementById('s-name').value,
+        gender: document.getElementById('s-gender').value,
+        status: document.getElementById('s-status').value,
+        guardian: document.getElementById('s-guardian').value,
+        phone: document.getElementById('s-phone').value
+      };
+      if (id) {
+        const idx = students.findIndex(s => s.id === parseInt(id));
+        if (idx !== -1) students[idx] = rec;
+      } else {
+        students.unshift(rec);
+      }
+      saveData();
+      closeStudentModal();
+      renderStudents();
+      updateMetrics();
+    }
+    function editStudent(id) {
+      const s = students.find(item => item.id === id);
+      if (!s) return;
+      document.getElementById('student-modal-title').textContent = 'Edit Student';
+      document.getElementById('student-edit-id').value = s.id;
+      document.getElementById('s-roll').value = s.roll;
+      document.getElementById('s-class').value = s.className;
+      document.getElementById('s-name').value = s.name;
+      document.getElementById('s-gender').value = s.gender;
+      document.getElementById('s-status').value = s.status;
+      document.getElementById('s-guardian').value = s.guardian;
+      document.getElementById('s-phone').value = s.phone;
+      openStudentModal();
+    }
+    function deleteStudent(id) {
+      if (confirm('Delete student record?')) {
+        students = students.filter(s => s.id !== id);
+        saveData();
+        renderStudents();
+        updateMetrics();
+      }
+    }
+    function filterStudents() {
+      const q = document.getElementById('search-student-input').value.toLowerCase();
+      const cls = document.getElementById('filter-student-class').value;
+      const filtered = students.filter(s => 
+        (s.name.toLowerCase().includes(q) || s.roll.toLowerCase().includes(q) || (s.guardian && s.guardian.toLowerCase().includes(q))) &&
+        (cls === '' || s.className === cls)
+      );
+      renderStudents(filtered);
+    }
+
+    // TEACHER MODAL & CRUD
+    function openTeacherModal() {
+      document.getElementById('teacher-modal-title').textContent = 'Add New Teacher';
+      document.getElementById('teacher-edit-id').value = '';
+      const modal = document.getElementById('teacher-modal');
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+    function closeTeacherModal() {
+      const modal = document.getElementById('teacher-modal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+    }
+    function handleTeacherSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('teacher-edit-id').value;
+      const rec = {
+        id: id ? parseInt(id) : Date.now(),
+        teacherId: document.getElementById('t-id').value,
+        subject: document.getElementById('t-subject').value,
+        name: document.getElementById('t-name').value,
+        className: document.getElementById('t-class').value,
+        phone: document.getElementById('t-phone').value
+      };
+      if (id) {
+        const idx = teachers.findIndex(t => t.id === parseInt(id));
+        if (idx !== -1) teachers[idx] = rec;
+      } else {
+        teachers.unshift(rec);
+      }
+      saveData();
+      closeTeacherModal();
+      renderTeachers();
+      updateMetrics();
+    }
+    function editTeacher(id) {
+      const t = teachers.find(item => item.id === id);
+      if (!t) return;
+      document.getElementById('teacher-modal-title').textContent = 'Edit Teacher';
+      document.getElementById('teacher-edit-id').value = t.id;
+      document.getElementById('t-id').value = t.teacherId;
+      document.getElementById('t-subject').value = t.subject;
+      document.getElementById('t-name').value = t.name;
+      document.getElementById('t-class').value = t.className;
+      document.getElementById('t-phone').value = t.phone;
+      openTeacherModal();
+    }
+    function deleteTeacher(id) {
+      if (confirm('Delete teacher record?')) {
+        teachers = teachers.filter(t => t.id !== id);
+        saveData();
+        renderTeachers();
+        updateMetrics();
+      }
+    }
+    function filterTeachers() {
+      const q = document.getElementById('search-teacher-input').value.toLowerCase();
+      const filtered = teachers.filter(t => 
+        t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q) || t.teacherId.toLowerCase().includes(q)
+      );
+      renderTeachers(filtered);
+    }
+
+    // INITIAL RENDER
+    renderStudents();
+    renderTeachers();
+    updateMetrics();
+  </script>
+</body>
+</html>
