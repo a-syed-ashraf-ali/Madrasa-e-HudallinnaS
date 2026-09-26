@@ -1,1221 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Ilm in | Management System</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-    --green:#063b2d;
-    --green2:#0b5a43;
-    --green3:#117a5a;
-    --gold:#d6ad52;
-    --gold2:#f0d48a;
-    --cream:#f8f5ed;
-    --white:#fff;
-    --text:#17231f;
-    --muted:#77827d;
-    --border:#e7e8e2;
-    --danger:#d94b4b;
-    --success:#15956c;
-    --shadow:0 15px 45px rgba(4,43,32,.10);
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-body{
-    font-family:Inter,sans-serif;
-    background:var(--cream);
-    color:var(--text);
-    min-height:100vh;
-}
-
-button,input,select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:270px;
-    background:
-        radial-gradient(circle at 20% 10%,rgba(214,173,82,.12),transparent 25%),
-        linear-gradient(160deg,#03271e,#063b2d 60%,#052f24);
-    color:white;
-    padding:25px 18px;
-    z-index:1000;
-    overflow-y:auto;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:8px 10px 25px;
-    border-bottom:1px solid rgba(255,255,255,.10);
-}
-
-.logo-icon{
-    width:48px;
-    height:48px;
-    border:1px solid rgba(240,212,138,.6);
-    border-radius:15px;
-    display:grid;
-    place-items:center;
-    font-size:24px;
-    background:rgba(214,173,82,.10);
-}
-
-.logo h2{
-    font-family:"Playfair Display",serif;
-    font-size:21px;
-    color:var(--gold2);
-}
-
-.logo span{
-    display:block;
-    font-size:10px;
-    color:#b9c8c2;
-    margin-top:3px;
-}
-
-.menu-title{
-    font-size:10px;
-    letter-spacing:2px;
-    color:#8da59c;
-    margin:27px 12px 10px;
-}
-
-.nav-item{
-    display:flex;
-    align-items:center;
-    gap:13px;
-    padding:13px 14px;
-    border-radius:13px;
-    margin:5px 0;
-    color:#d7e1dd;
-    transition:.25s;
-    font-size:14px;
-    border:1px solid transparent;
-}
-
-.nav-item:hover{
-    background:rgba(255,255,255,.07);
-    color:white;
-}
-
-.nav-item.active{
-    background:linear-gradient(
-        90deg,
-        rgba(214,173,82,.20),
-        rgba(214,173,82,.05)
-    );
-    border-color:rgba(214,173,82,.28);
-    color:var(--gold2);
-}
-
-.nav-icon{
-    width:24px;
-    text-align:center;
-    font-size:18px;
-}
-
-/* MAIN */
-
-.main{
-    margin-left:270px;
-    min-height:100vh;
-}
-
-.topbar{
-    height:80px;
-    background:rgba(255,255,255,.86);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 35px;
-    position:sticky;
-    top:0;
-    z-index:500;
-}
-
-.page-title{
-    font-size:20px;
-    font-weight:800;
-}
-
-.page-subtitle{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:3px;
-}
-
-.top-actions{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.icon-btn{
-    width:42px;
-    height:42px;
-    border:1px solid var(--border);
-    background:white;
-    border-radius:13px;
-}
-
-.profile{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.avatar{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,var(--green3),var(--green));
-    color:var(--gold2);
-    font-weight:800;
-}
-
-.profile-info strong{
-    font-size:13px;
-    display:block;
-}
-
-.profile-info span{
-    color:var(--muted);
-    font-size:10px;
-}
-
-/* CONTENT */
-
-.content{
-    padding:32px 35px 50px;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-/* WELCOME */
-
-.welcome{
-    position:relative;
-    overflow:hidden;
-    border-radius:25px;
-    padding:30px;
-    color:white;
-    background:
-        radial-gradient(circle at 90% 20%,rgba(214,173,82,.25),transparent 25%),
-        radial-gradient(circle at 70% 100%,rgba(17,122,90,.4),transparent 35%),
-        linear-gradient(120deg,#063b2d,#0a5b44);
-    box-shadow:var(--shadow);
-    margin-bottom:25px;
-}
-
-.welcome h1{
-    font-family:"Playfair Display",serif;
-    font-size:30px;
-    margin:8px 0;
-}
-
-.welcome small{
-    color:var(--gold2);
-    letter-spacing:1px;
-}
-
-.welcome p{
-    color:#c9d9d2;
-    font-size:13px;
-}
-
-.date-pill{
-    display:inline-block;
-    margin-top:18px;
-    padding:10px 16px;
-    background:rgba(255,255,255,.09);
-    border:1px solid rgba(255,255,255,.15);
-    border-radius:12px;
-    font-size:11px;
-}
-
-/* STATS */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-bottom:25px;
-}
-
-.stat{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:22px;
-    box-shadow:0 8px 30px rgba(0,0,0,.035);
-}
-
-.stat-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.stat-icon{
-    width:45px;
-    height:45px;
-    border-radius:14px;
-    display:grid;
-    place-items:center;
-    background:#edf6f2;
-    color:var(--green3);
-    font-size:20px;
-}
-
-.stat h3{
-    font-size:27px;
-    margin:17px 0 4px;
-}
-
-.stat p{
-    font-size:12px;
-    color:var(--muted);
-}
-
-/* CARDS */
-
-.card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:20px;
-    box-shadow:0 8px 30px rgba(0,0,0,.035);
-    overflow:hidden;
-}
-
-.card-head{
-    padding:20px 22px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-}
-
-.card-head h3{
-    font-size:15px;
-}
-
-.card-head span{
-    font-size:11px;
-    color:var(--muted);
-}
-
-.card-body{
-    padding:22px;
-}
-
-/* DASHBOARD */
-
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:1.5fr 1fr;
-    gap:20px;
-}
-
-.empty{
-    text-align:center;
-    padding:55px 20px;
-    color:var(--muted);
-}
-
-.empty-icon{
-    font-size:40px;
-    margin-bottom:12px;
-}
-
-.quick-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.quick{
-    padding:17px;
-    border-radius:15px;
-    border:1px solid var(--border);
-    background:#fcfcf9;
-    transition:.2s;
-    text-align:left;
-}
-
-.quick:hover{
-    border-color:#cdb269;
-    background:#fffdf6;
-    transform:translateY(-2px);
-}
-
-.quick-icon{
-    font-size:22px;
-    margin-bottom:10px;
-}
-
-.quick strong{
-    display:block;
-    font-size:12px;
-}
-
-.quick span{
-    display:block;
-    font-size:10px;
-    color:var(--muted);
-    margin-top:3px;
-}
-
-/* STUDENTS */
-
-.table-card{
-    margin-top:20px;
-}
-
-.tools{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:18px;
-}
-
-.tools input,
-.tools select{
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:10px 12px;
-    background:white;
-    outline:none;
-    font-size:11px;
-}
-
-.tools input{
-    width:230px;
-}
-
-.table-wrap{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:800px;
-}
-
-th{
-    text-align:left;
-    padding:13px 16px;
-    background:#fafaf7;
-    color:#7a8580;
-    font-size:10px;
-}
-
-td{
-    padding:14px 16px;
-    border-top:1px solid #f0f1ec;
-    font-size:12px;
-}
-
-.student{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.student-avatar{
-    width:36px;
-    height:36px;
-    border-radius:10px;
-    background:#e7f1ed;
-    display:grid;
-    place-items:center;
-    color:var(--green);
-    font-weight:700;
-}
-
-.actions{
-    display:flex;
-    gap:6px;
-}
-
-.small-btn{
-    border:1px solid var(--border);
-    background:white;
-    border-radius:8px;
-    padding:7px 9px;
-    font-size:11px;
-}
-
-.small-btn:hover{
-    border-color:var(--gold);
-}
-
-.delete:hover{
-    border-color:var(--danger);
-    color:var(--danger);
-}
-
-.primary{
-    border:0;
-    padding:11px 16px;
-    border-radius:11px;
-    background:linear-gradient(135deg,var(--green3),var(--green));
-    color:white;
-    font-weight:700;
-}
-
-.secondary{
-    border:1px solid var(--border);
-    background:white;
-    padding:10px 14px;
-    border-radius:10px;
-    font-size:11px;
-}
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.48);
-    backdrop-filter:blur(5px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:3000;
-    padding:20px;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    background:white;
-    width:650px;
-    max-width:100%;
-    max-height:92vh;
-    overflow:auto;
-    border-radius:22px;
-    box-shadow:0 30px 80px rgba(0,0,0,.25);
-}
-
-.modal-head{
-    background:linear-gradient(135deg,var(--green),var(--green2));
-    color:white;
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.close{
-    background:none;
-    border:0;
-    color:white;
-    font-size:22px;
-}
-
-.form{
-    padding:22px;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.form-group{
-    margin-bottom:5px;
-}
-
-.form-group.full{
-    grid-column:1/-1;
-}
-
-.form-group label{
-    display:block;
-    font-size:11px;
-    font-weight:700;
-    margin-bottom:7px;
-}
-
-.form-group input,
-.form-group select{
-    width:100%;
-    border:1px solid var(--border);
-    padding:12px;
-    border-radius:11px;
-    outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus{
-    border-color:var(--gold);
-}
-
-.conditional{
-    display:none;
-}
-
-.conditional.show{
-    display:block;
-}
-
-/* STUDENT DETAILS */
-
-.detail{
-    padding:22px;
-}
-
-.student-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.student-header h2{
-    font-size:22px;
-}
-
-.student-meta{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:5px;
-}
-
-/* EXAMS */
-
-.exam{
-    border:1px solid var(--border);
-    border-radius:16px;
-    overflow:hidden;
-    margin-top:20px;
-}
-
-.exam-header{
-    padding:16px;
-    background:#fafaf7;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.exam-header h3{
-    font-size:14px;
-}
-
-.exam-table{
-    overflow-x:auto;
-}
-
-.exam-table table{
-    min-width:850px;
-}
-
-.exam-table input{
-    width:100%;
-    min-width:90px;
-    padding:8px;
-    border:1px solid var(--border);
-    border-radius:7px;
-    font-size:11px;
-}
-
-.exam-actions{
-    padding:14px 16px;
-    border-top:1px solid var(--border);
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.summary{
-    padding:14px 16px;
-    border-top:1px solid var(--border);
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.summary-box{
-    border:1px solid var(--border);
-    background:white;
-    border-radius:10px;
-    padding:10px 13px;
-}
-
-.summary-box small{
-    display:block;
-    color:var(--muted);
-    font-size:9px;
-}
-
-.summary-box strong{
-    display:block;
-    margin-top:3px;
-}
-
-.pass{
-    color:#0d805c;
-    font-weight:800;
-}
-
-.fail{
-    color:#bd3c3c;
-    font-weight:800;
-}
-
-.note{
-    background:#fff7df;
-    color:#80641e;
-    padding:11px;
-    border-radius:10px;
-    font-size:11px;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-    display:none;
-}
-
-@media(max-width:1100px){
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .dashboard-grid{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:750px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.3s;
-    }
-
-    .sidebar.open{
-        transform:translateX(0);
-    }
-
-    .main{
-        margin-left:0;
-    }
-
-    .mobile-menu{
-        display:block;
-        width:40px;
-        height:40px;
-        border:1px solid var(--border);
-        background:white;
-        border-radius:10px;
-        margin-right:10px;
-    }
-
-    .topbar{
-        padding:0 15px;
-    }
-
-    .content{
-        padding:20px 15px 40px;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .stat{
-        padding:15px;
-    }
-
-    .stat h3{
-        font-size:22px;
-    }
-
-    .profile-info{
-        display:none;
-    }
-
-    .welcome h1{
-        font-size:24px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .form-group.full{
-        grid-column:auto;
-    }
-}
-
-@media(max-width:450px){
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .quick-actions{
-        grid-template-columns:1fr;
-    }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilm in Management Portal</title>
 </head>
+<body style="margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333;">
 
-<body>
+  <!-- MAIN WRAPPER -->
+  <div style="display: flex; min-height: 100vh;">
 
-<!-- SIDEBAR -->
-
-<aside class="sidebar" id="sidebar">
-
-    <div class="logo">
-        <div class="logo-icon">🕌</div>
-
+    <!-- SIDEBAR -->
+    <aside style="width: 240px; background-color: #1e293b; color: #ffffff; padding: 20px; box-sizing: border-box;">
+      
+      <!-- BRAND LOGO -->
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 30px;">
+        <span style="font-size: 28px;">🕌</span>
         <div>
-            <h2>Ilm in</h2>
-            <span>MANAGEMENT SYSTEM</span>
+          <h2 style="margin: 0; font-size: 18px; line-height: 1.2;">Ilm in</h2>
+          <span style="font-size: 10px; color: #94a3b8; letter-spacing: 1px;">MANAGEMENT SYSTEM</span>
         </div>
-    </div>
+      </div>
 
-    <div class="menu-title">MAIN MENU</div>
+      <!-- MAIN MENU -->
+      <div style="font-size: 11px; color: #64748b; margin-bottom: 10px; letter-spacing: 1px;">MAIN MENU</div>
+      
+      <nav style="display: flex; flex-direction: column; gap: 8px;">
+        <a href="#dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #ffffff; background-color: #0284c7; text-decoration: none; border-radius: 6px; font-size: 14px;">
+          <span>⌂</span> Dashboard
+        </a>
+        <a href="#students" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;">
+          <span>👨‍🎓</span> Students
+        </a>
+        <a href="#teachers" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;">
+          <span>👨‍🏫</span> Teachers
+        </a>
+        <a href="#fees" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;">
+          <span>💰</span> Fees & Payments
+        </a>
+      </nav>
 
-    <div class="nav-item active"
-         onclick="showPage('Dashboard',this)">
-        <div class="nav-icon">⌂</div>
-        Dashboard
-    </div>
+    </aside>
 
-    <div class="nav-item"
-         onclick="showPage('Students',this)">
-        <div class="nav-icon">👨‍🎓</div>
-        Students
-    </div>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main style="flex: 1; padding: 30px; box-sizing: border-box;">
 
-    <div class="nav-item"
-         onclick="showPage('Teachers',this)">
-        <div class="nav-icon">👨‍🏫</div>
-        Teachers
-    </div>
-
-    <div class="nav-item"
-         onclick="showPage('Fees',this)">
-        <div class="nav-icon">💰</div>
-        Fees & Payments
-    </div>
-
-    <div class="menu-title">MANAGEMENT</div>
-
-    <div class="nav-item"
-         onclick="showPage('Classes',this)">
-        <div class="nav-icon">📚</div>
-        Classes
-    </div>
-
-    <div class="menu-title">SYSTEM</div>
-
-    <div class="nav-item"
-         onclick="showPage('Settings',this)">
-        <div class="nav-icon">⚙️</div>
-        Settings
-    </div>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-<header class="topbar">
-
-    <div style="display:flex;align-items:center">
-
-        <button class="mobile-menu"
-                onclick="toggleSidebar()">☰</button>
-
+      <!-- TOP HEADER -->
+      <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0;">
         <div>
+          <h1 style="margin: 0; font-size: 22px; color: #0f172a;">Ilm in Management Portal</h1>
+          <span style="font-size: 13px; color: #64748b;">Madrasa-e-HudallinnaS</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 40px; height: 40px; background-color: #0284c7; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">SA</div>
+          <div>
+            <strong style="display: block; font-size: 14px; color: #1e293b;">Administrator</strong>
+            <span style="font-size: 12px; color: #64748b;">Super Admin</span>
+          </div>
+        </div>
+      </header>
 
-            <div class="page-title"
-                 id="pageTitle">
-                Dashboard
-            </div>
+      <!-- SECTION 1: DASHBOARD -->
+      <section id="dashboard" style="margin-bottom: 40px;">
+        
+        <!-- WELCOME BANNER -->
+        <div style="background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; padding: 25px; border-radius: 8px; margin-bottom: 25px;">
+          <small style="letter-spacing: 1px; font-size: 11px; opacity: 0.9;">ASSALAMU ALAIKUM WA RAHMATULLAHI WA BARAKATUH</small>
+          <h2 style="margin: 8px 0 5px 0;">Welcome to Ilm in</h2>
+          <p style="margin: 0; opacity: 0.9; font-size: 14px;">Manage students, teachers, fees, and academic information from one central portal.</p>
+        </div>
 
-            <div class="page-subtitle">
-                Ilm in Management Portal
-            </div>
+        <!-- METRIC CARDS -->
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
+          
+          <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 24px;">👨‍🎓</span>
+            <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
+            <p style="margin: 0; color: #64748b; font-size: 13px;">Total Students</p>
+          </div>
+
+          <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 24px;">👨‍🏫</span>
+            <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
+            <p style="margin: 0; color: #64748b; font-size: 13px;">Teachers & Staff</p>
+          </div>
+
+          <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 24px;">💰</span>
+            <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">₹0</h3>
+            <p style="margin: 0; color: #64748b; font-size: 13px;">Monthly Collection</p>
+          </div>
+
+          <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 24px;">📚</span>
+            <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
+            <p style="margin: 0; color: #64748b; font-size: 13px;">Active Classes</p>
+          </div>
 
         </div>
 
-    </div>
-
-
-    <div class="top-actions">
-
-        <button class="icon-btn"
-                onclick="showNotifications()">
-            🔔
-        </button>
-
-        <div class="profile">
-
-            <div class="avatar">
-                SA
+        <!-- STUDENT OVERVIEW & QUICK ACTIONS -->
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+          
+          <!-- OVERVIEW -->
+          <div style="flex: 2; min-width: 280px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <h3 style="margin-top: 0; font-size: 16px; color: #0f172a;">Student Overview</h3>
+            <div style="text-align: center; padding: 40px 20px; color: #64748b;">
+              <span style="font-size: 36px; display: block; margin-bottom: 10px;">👨‍🎓</span>
+              <strong style="color: #334155;">No students added yet</strong>
+              <p style="margin: 5px 0 0 0; font-size: 13px;">Add your first student below.</p>
             </div>
+          </div>
 
-            <div class="profile-info">
-
-                <strong>
-                    Administrator
-                </strong>
-
-                <span>
-                    Super Admin
-                </span>
-
-            </div>
+          <!-- ACTIONS FORM -->
+          <div style="flex: 1; min-width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <h3 style="margin-top: 0; font-size: 16px; color: #0f172a;">Add New Student</h3>
+            <form action="#" method="POST" style="margin-top: 15px;">
+              <div style="margin-bottom: 12px;">
+                <label style="display: block; font-size: 12px; margin-bottom: 4px; color: #475569;">Student Name</label>
+                <input type="text" name="student_name" placeholder="Full name" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box;" required>
+              </div>
+              <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 12px; margin-bottom: 4px; color: #475569;">Class / Grade</label>
+                <input type="text" name="class_name" placeholder="e.g. Class 1" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box;" required>
+              </div>
+              <button type="submit" style="width: 100%; background-color: #0284c7; color: white; padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
+                Save Student Record
+              </button>
+            </form>
+          </div>
 
         </div>
 
-    </div>
-
-</header>
-
-
-<section class="content">
-
-
-<!-- DASHBOARD -->
-
-<div class="page active"
-     id="Dashboard">
-
-    <div class="welcome">
-
-        <small>
-            ASSALAMU ALAIKUM WA RAHMATULLAHI WA BARAKATUH
-        </small>
-
-        <h1>
-            Welcome to Ilm in
-        </h1>
-
-        <p>
-            Manage students, teachers, fees and academic information from one elegant dashboard.
-        </p>
-
-        <div class="date-pill"
-             id="todayDate">
-        </div>
-
-    </div>
-
-
-    <div class="stats">
-
-        <div class="stat">
-
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    👨‍🎓
-                </div>
-
-            </div>
-
-            <h3 id="studentCount">
-                0
-            </h3>
-
-            <p>
-                Total Students
-            </p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    👨‍🏫
-                </div>
-
-            </div>
-
-            <h3 id="teacherCount">
-                0
-            </h3>
-
-            <p>
-                Teachers & Staff
-            </p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    💰
-                </div>
-
-            </div>
-
-            <h3>
-                ₹0
-            </h3>
-
-            <p>
-                Monthly Collection
-            </p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    📚
-                </div>
-
-            </div>
-
-            <h3 id="classCount">
-                0
-            </h3>
-
-            <p>
-                Classes
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="dashboard-grid">
-
-
-        <div class="card">
-
-            <div class="card-head">
-
-                <div>
-
-                    <h3>
-                        Student Overview
-                    </h3>
-
-                    <span>
-                        Live student records
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="card-body">
-
-                <div class="empty"
-                     id="dashboardEmpty">
-
-                    <div class="empty-icon">
-                        👨‍🎓
-                    </div>
-
-                    <strong>
-                        No students added yet
-                    </strong>
-
-                    <p>
-                        Add your first student to begin.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="card-head">
-
-                <div>
-
-                    <h3>
-                        Quick Actions
-                    </h3>
-
-                    <span>
-                        Frequently used tools
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="card-body">
-
-                <div class="quick-actions">
-
-                    <button class="quick"
-                            onclick="openStudentModal()">
-
-                        <div class="quick-icon">
-                            👨‍🎓
-                        </div>
-
-                        <strong>
-                            Add Student
-                        </strong>
-
-                        <span>
-                            Register new student
-                        </span>
-
-                    </button>
-
-
-                    <button class="quick"
-                            onclick="showPage('Teachers')">
-
-                        <div class="quick-icon">
-                            👨‍🏫
-                        </div>
-
-                        <strong>
-                            Teachers
-                        </strong>
-
-                        <span>
-                            Manage teachers
-                        </span>
-
-                    </button>
-
-
-                    <button class="quick"
-                            onclick="showPage('Fees')">
-
-                        <div class="quick-icon">
-                            💰
-                        </div>
-
-                        <strong>
-                            Fees
-                        </strong>
-
-                        <span>
-                            Manage payments
-                        </span>
-
-                    </button>
-
-
-                    <button class="quick"
-                            onclick="showPage('Classes')">
-
-                        <div class="quick-icon">
-                            📚
-                        </div>
-
-                        <strong>
-                            Classes
-                        </strong>
-
-                        <span>
-                            Manage classes
-                        </span>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- STUDENTS -->
-
-<div class="page"
-     id="Students">
-
-    <div class="card">
-
-        <div class="card-head">
-
-            <div>
-
-                <h3>
-                    👨‍🎓 Students
-                </h3>
-
-                <span>
-                    Search, filter and manage students
-                </span>
-
-            </div>
-
-            <button class="primary"
-                    onclick="openStudentModal()">
-
-                + Add Student
-
-     
+      </section>
+
+      <!-- SECTION 2: STUDENTS TABLE -->
+      <section id="students" style="margin-bottom: 40px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h2 style="margin-top: 0; font-size: 18px; color: #0f172a;">👨‍🎓 Student Roster</h2>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
+          <thead>
+            <tr style="background-color: #f8fafc; text-align: left;">
+              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Roll No</th>
+              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Name</th>
+              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Class</th>
+              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4" style="padding: 20px; text-align: center; color: #94a3b8;">No active records found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 3: TEACHERS -->
+      <section id="teachers" style="margin-bottom: 40px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h2 style="margin-top: 0; font-size: 18px; color: #0f172a;">👨‍🏫 Teachers & Staff</h2>
+        <p style="color: #64748b; font-size: 14px; margin: 0;">Faculty directory details will be listed here.</p>
+      </section>
+
+      <!-- SECTION 4: FEES -->
+      <section id="fees" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h2 style="margin-top: 0; font-size: 18px; color: #0f172a;">💰 Fees & Payments</h2>
+        <p style="color: #64748b; font-size: 14px; margin: 0;">Fee logs and receipts will appear here.</p>
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
