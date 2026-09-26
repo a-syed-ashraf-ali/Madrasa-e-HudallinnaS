@@ -4,16 +4,98 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ilm in Management Portal</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+    }
+    a { text-decoration: none; }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      color: #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn-primary { background-color: #0284c7; color: white; }
+    .btn-primary:hover { background-color: #0369a1; }
+    .btn-secondary { background-color: #e2e8f0; color: #334155; }
+    .btn-secondary:hover { background-color: #cbd5e1; }
+    .btn-edit { background-color: #f59e0b; color: white; padding: 5px 10px; font-size: 12px; }
+    .btn-edit:hover { background-color: #d97706; }
+    .btn-delete { background-color: #ef4444; color: white; padding: 5px 10px; font-size: 12px; }
+    .btn-delete:hover { background-color: #dc2626; }
+    
+    .status-badge {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .status-active { background-color: #dcfce7; color: #15803d; }
+    .status-inactive { background-color: #fee2e2; color: #b91c1c; }
+
+    /* Modal Styles */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-backdrop.active { display: flex; }
+    .modal {
+      background: #ffffff;
+      width: 100%;
+      max-width: 550px;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; margin-bottom: 4px; color: #475569; font-weight: 600; }
+    .form-control {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    th { background-color: #f8fafc; color: #475569; }
+  </style>
 </head>
-<body style="margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333;">
+<body>
 
   <!-- MAIN WRAPPER -->
   <div style="display: flex; min-height: 100vh;">
 
     <!-- SIDEBAR -->
-    <aside style="width: 240px; background-color: #1e293b; color: #ffffff; padding: 20px; box-sizing: border-box;">
-      
-      <!-- BRAND LOGO -->
+    <aside style="width: 240px; background-color: #1e293b; color: #ffffff; padding: 20px; flex-shrink: 0;">
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 30px;">
         <span style="font-size: 28px;">🕌</span>
         <div>
@@ -22,28 +104,17 @@
         </div>
       </div>
 
-      <!-- MAIN MENU -->
       <div style="font-size: 11px; color: #64748b; margin-bottom: 10px; letter-spacing: 1px;">MAIN MENU</div>
-      
       <nav style="display: flex; flex-direction: column; gap: 8px;">
-        <a href="#dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #ffffff; background-color: #0284c7; text-decoration: none; border-radius: 6px; font-size: 14px;">
-          <span>⌂</span> Dashboard
-        </a>
-        <a href="#students" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;">
-          <span>👨‍🎓</span> Students
-        </a>
-        <a href="#teachers" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;">
-          <span>👨‍🏫</span> Teachers
-        </a>
-        <a href="#fees" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px;">
-          <span>💰</span> Fees & Payments
-        </a>
+        <a href="#dashboard" class="nav-link"><span>⌂</span> Dashboard</a>
+        <a href="#students" class="nav-link active"><span>👨‍🎓</span> Students</a>
+        <a href="#teachers" class="nav-link"><span>👨‍🏫</span> Teachers</a>
+        <a href="#fees" class="nav-link"><span>💰</span> Fees & Payments</a>
       </nav>
-
     </aside>
 
     <!-- MAIN CONTENT CONTAINER -->
-    <main style="flex: 1; padding: 30px; box-sizing: border-box;">
+    <main style="flex: 1; padding: 30px; min-width: 0;">
 
       <!-- TOP HEADER -->
       <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0;">
@@ -60,116 +131,272 @@
         </div>
       </header>
 
-      <!-- SECTION 1: DASHBOARD -->
-      <section id="dashboard" style="margin-bottom: 40px;">
-        
-        <!-- WELCOME BANNER -->
-        <div style="background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; padding: 25px; border-radius: 8px; margin-bottom: 25px;">
-          <small style="letter-spacing: 1px; font-size: 11px; opacity: 0.9;">ASSALAMU ALAIKUM WA RAHMATULLAHI WA BARAKATUH</small>
-          <h2 style="margin: 8px 0 5px 0;">Welcome to Ilm in</h2>
-          <p style="margin: 0; opacity: 0.9; font-size: 14px;">Manage students, teachers, fees, and academic information from one central portal.</p>
-        </div>
-
-        <!-- METRIC CARDS -->
-        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
-          
+      <!-- DASHBOARD STATS -->
+      <section id="dashboard" style="margin-bottom: 30px;">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
           <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
             <span style="font-size: 24px;">👨‍🎓</span>
-            <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
+            <h3 id="stat-students" style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
             <p style="margin: 0; color: #64748b; font-size: 13px;">Total Students</p>
           </div>
-
           <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
             <span style="font-size: 24px;">👨‍🏫</span>
             <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
             <p style="margin: 0; color: #64748b; font-size: 13px;">Teachers & Staff</p>
           </div>
-
           <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
             <span style="font-size: 24px;">💰</span>
             <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">₹0</h3>
             <p style="margin: 0; color: #64748b; font-size: 13px;">Monthly Collection</p>
           </div>
-
-          <div style="flex: 1; min-width: 180px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-            <span style="font-size: 24px;">📚</span>
-            <h3 style="margin: 10px 0 5px 0; font-size: 24px; color: #0f172a;">0</h3>
-            <p style="margin: 0; color: #64748b; font-size: 13px;">Active Classes</p>
-          </div>
-
         </div>
-
-        <!-- STUDENT OVERVIEW & QUICK ACTIONS -->
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-          
-          <!-- OVERVIEW -->
-          <div style="flex: 2; min-width: 280px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-            <h3 style="margin-top: 0; font-size: 16px; color: #0f172a;">Student Overview</h3>
-            <div style="text-align: center; padding: 40px 20px; color: #64748b;">
-              <span style="font-size: 36px; display: block; margin-bottom: 10px;">👨‍🎓</span>
-              <strong style="color: #334155;">No students added yet</strong>
-              <p style="margin: 5px 0 0 0; font-size: 13px;">Add your first student below.</p>
-            </div>
-          </div>
-
-          <!-- ACTIONS FORM -->
-          <div style="flex: 1; min-width: 250px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-            <h3 style="margin-top: 0; font-size: 16px; color: #0f172a;">Add New Student</h3>
-            <form action="#" method="POST" style="margin-top: 15px;">
-              <div style="margin-bottom: 12px;">
-                <label style="display: block; font-size: 12px; margin-bottom: 4px; color: #475569;">Student Name</label>
-                <input type="text" name="student_name" placeholder="Full name" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box;" required>
-              </div>
-              <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 12px; margin-bottom: 4px; color: #475569;">Class / Grade</label>
-                <input type="text" name="class_name" placeholder="e.g. Class 1" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box;" required>
-              </div>
-              <button type="submit" style="width: 100%; background-color: #0284c7; color: white; padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
-                Save Student Record
-              </button>
-            </form>
-          </div>
-
-        </div>
-
       </section>
 
-      <!-- SECTION 2: STUDENTS TABLE -->
-      <section id="students" style="margin-bottom: 40px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <h2 style="margin-top: 0; font-size: 18px; color: #0f172a;">👨‍🎓 Student Roster</h2>
+      <!-- SECTION: STUDENTS MANAGEMENT -->
+      <section id="students" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
         
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
-          <thead>
-            <tr style="background-color: #f8fafc; text-align: left;">
-              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Roll No</th>
-              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Name</th>
-              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Class</th>
-              <th style="padding: 10px; border-bottom: 2px solid #e2e8f0;">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="4" style="padding: 20px; text-align: center; color: #94a3b8;">No active records found.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+        <!-- HEADER & ADD BUTTON -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h2 style="margin: 0; font-size: 18px; color: #0f172a;">👨‍🎓 Student Roster</h2>
+            <span style="font-size: 12px; color: #64748b;">Manage student details, enrollment, and records</span>
+          </div>
+          <button class="btn btn-primary" onclick="openModal()">+ Add New Student</button>
+        </div>
 
-      <!-- SECTION 3: TEACHERS -->
-      <section id="teachers" style="margin-bottom: 40px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <h2 style="margin-top: 0; font-size: 18px; color: #0f172a;">👨‍🏫 Teachers & Staff</h2>
-        <p style="color: #64748b; font-size: 14px; margin: 0;">Faculty directory details will be listed here.</p>
-      </section>
+        <!-- SEARCH AND FILTER TOOLBAR -->
+        <div style="display: flex; gap: 12px; margin-bottom: 15px; flex-wrap: wrap;">
+          <input type="text" id="search-input" class="form-control" placeholder="🔍 Search name, roll no, parent..." style="flex: 2; min-width: 200px;" onkeyup="filterStudents()">
+          <select id="filter-class" class="form-control" style="flex: 1; min-width: 150px;" onchange="filterStudents()">
+            <option value="">All Classes</option>
+            <option value="Class 1">Class 1</option>
+            <option value="Class 2">Class 2</option>
+            <option value="Class 3">Class 3</option>
+            <option value="Hifz">Hifz</option>
+          </select>
+        </div>
 
-      <!-- SECTION 4: FEES -->
-      <section id="fees" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <h2 style="margin-top: 0; font-size: 18px; color: #0f172a;">💰 Fees & Payments</h2>
-        <p style="color: #64748b; font-size: 14px; margin: 0;">Fee logs and receipts will appear here.</p>
+        <!-- TABLE -->
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Gender</th>
+                <th>Guardian</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th style="text-align: center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="student-table-body">
+              <tr>
+                <td colspan="8" style="text-align: center; color: #94a3b8; padding: 25px;">No student records found. Click "+ Add New Student" to get started.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </section>
 
     </main>
 
   </div>
+
+  <!-- ADD / EDIT STUDENT MODAL -->
+  <div id="student-modal" class="modal-backdrop">
+    <div class="modal">
+      <h3 id="modal-title" style="margin-top: 0; font-size: 18px; color: #0f172a; margin-bottom: 15px;">Add Student Profile</h3>
+      <form id="student-form">
+        <input type="hidden" id="edit-id">
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Roll Number *</label>
+            <input type="text" id="form-roll" class="form-control" placeholder="e.g. STU-001" required>
+          </div>
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="form-name" class="form-control" placeholder="Full name" required>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Class / Grade *</label>
+            <select id="form-class" class="form-control" required>
+              <option value="">Select Class</option>
+              <option value="Class 1">Class 1</option>
+              <option value="Class 2">Class 2</option>
+              <option value="Class 3">Class 3</option>
+              <option value="Hifz">Hifz</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Gender *</label>
+            <select id="form-gender" class="form-control" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Parent / Guardian Name</label>
+            <input type="text" id="form-guardian" class="form-control" placeholder="Guardian Name">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="form-phone" class="form-control" placeholder="Contact Number">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select id="form-status" class="form-control">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    let students = [];
+
+    const modal = document.getElementById('student-modal');
+    const form = document.getElementById('student-form');
+    const tableBody = document.getElementById('student-table-body');
+    const statStudents = document.getElementById('stat-students');
+
+    // Open Modal for Add
+    function openModal() {
+      document.getElementById('modal-title').textContent = "Add Student Profile";
+      form.reset();
+      document.getElementById('edit-id').value = '';
+      modal.classList.add('active');
+    }
+
+    // Close Modal
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+
+    // Render Table Data
+    function renderTable(dataToRender = students) {
+      tableBody.innerHTML = '';
+
+      if (dataToRender.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #94a3b8; padding: 25px;">No student records found.</td></tr>`;
+        statStudents.textContent = students.length;
+        return;
+      }
+
+      dataToRender.forEach(student => {
+        const tr = document.createElement('tr');
+        const statusClass = student.status === 'Active' ? 'status-active' : 'status-inactive';
+
+        tr.innerHTML = `
+          <td style="font-weight: 600;">${student.roll}</td>
+          <td>${student.name}</td>
+          <td>${student.className}</td>
+          <td>${student.gender}</td>
+          <td>${student.guardian || '-'}</td>
+          <td>${student.phone || '-'}</td>
+          <td><span class="status-badge ${statusClass}">${student.status}</span></td>
+          <td style="text-align: center;">
+            <button class="btn btn-edit" onclick="editStudent(${student.id})">Edit</button>
+            <button class="btn btn-delete" onclick="deleteStudent(${student.id})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      statStudents.textContent = students.length;
+    }
+
+    // Form Submit (Add or Edit)
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const editId = document.getElementById('edit-id').value;
+      const studentData = {
+        id: editId ? parseInt(editId) : Date.now(),
+        roll: document.getElementById('form-roll').value,
+        name: document.getElementById('form-name').value,
+        className: document.getElementById('form-class').value,
+        gender: document.getElementById('form-gender').value,
+        guardian: document.getElementById('form-guardian').value,
+        phone: document.getElementById('form-phone').value,
+        status: document.getElementById('form-status').value
+      };
+
+      if (editId) {
+        // Edit Mode
+        const index = students.findIndex(s => s.id === parseInt(editId));
+        if (index !== -1) students[index] = studentData;
+      } else {
+        // Add Mode
+        students.push(studentData);
+      }
+
+      closeModal();
+      filterStudents(); // Re-render with applied filters
+    });
+
+    // Edit Student
+    function editStudent(id) {
+      const student = students.find(s => s.id === id);
+      if (!student) return;
+
+      document.getElementById('modal-title').textContent = "Edit Student Profile";
+      document.getElementById('edit-id').value = student.id;
+      document.getElementById('form-roll').value = student.roll;
+      document.getElementById('form-name').value = student.name;
+      document.getElementById('form-class').value = student.className;
+      document.getElementById('form-gender').value = student.gender;
+      document.getElementById('form-guardian').value = student.guardian;
+      document.getElementById('form-phone').value = student.phone;
+      document.getElementById('form-status').value = student.status;
+
+      modal.classList.add('active');
+    }
+
+    // Delete Student
+    function deleteStudent(id) {
+      if (confirm('Are you sure you want to remove this student?')) {
+        students = students.filter(s => s.id !== id);
+        filterStudents();
+      }
+    }
+
+    // Filter and Search Logic
+    function filterStudents() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      const selectedClass = document.getElementById('filter-class').value;
+
+      const filtered = students.filter(s => {
+        const matchesQuery = s.name.toLowerCase().includes(query) ||
+                             s.roll.toLowerCase().includes(query) ||
+                             (s.guardian && s.guardian.toLowerCase().includes(query));
+        const matchesClass = selectedClass === '' || s.className === selectedClass;
+
+        return matchesQuery && matchesClass;
+      });
+
+      renderTable(filtered);
+    }
+  </script>
 
 </body>
 </html>
